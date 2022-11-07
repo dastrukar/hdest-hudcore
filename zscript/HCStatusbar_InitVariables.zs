@@ -1,6 +1,6 @@
 extend class HCStatusbar
 {
-	override void InitVariables()
+	private void InitVariables()
 	{
 		mxht=-4-mIndexFont.mFont.GetHeight();
 	}

@@ -45,7 +45,7 @@ AutomapActive=\
 InitHeader=\
 "extend class HCStatusbar
 {
-	override void InitVariables()
+	private void InitVariables()
 	{
 "
 
