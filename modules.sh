@@ -13,7 +13,7 @@ GenericEnd=\
 "
 
 # Files
-InitFile="zscript/HCStatusbar_Init.zs"
+InitFile="zscript/HCStatusbar_InitVariables.zs"
 DrawFile="zscript/HCStatusbar_SuperDraw.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
@@ -45,38 +45,8 @@ AutomapActive=\
 InitHeader=\
 "extend class HCStatusbar
 {
-	override void Init()
+	override void InitVariables()
 	{
-		Super.Init();
-
-		Console.PrintF(\"Initialising HCStatusbar.\");
-
-		// Get all classes that inherit from HUDElement
-		_HUDElements.Clear();
-		for (int ci = 0; ci < AllClasses.Size(); ci++)
-		{
-			if (AllClasses[ci] is \"HUDElement\" && AllClasses[ci].GetClassName() != \"HUDElement\")
-			{
-				let element = HUDElement(new(AllClasses[ci]));
-				element.Init(self);
-
-				if (element.Namespace == \"\")
-					continue;
-
-				int elementIndex = -1;
-				for (int ei = 0; ei < _HUDElements.Size(); ei++)
-				{
-					if (_HUDElements[ei].Namespace == element.Namespace)
-					{
-						elementIndex = ei;
-						_HUDElements[ei] = element;
-					}
-
-				}
-				_HUDElements.Push(element);
-			}
-		}
-
 "
 
 DrawHeader=\
@@ -87,7 +57,7 @@ DrawHeader=\
 "
 
 HeartbeatHeader=\
-"class HUDHeartbeatMonitor : HUDElement
+"class HUDHeartbeat : HUDElement
 {
 	${Init}
 	{
@@ -99,7 +69,7 @@ HeartbeatHeader=\
 "
 
 EKGHeader=\
-"class HUDEKGMonitor : HUDElement
+"class HUDEKG : HUDElement
 {
 	${Init}
 	{

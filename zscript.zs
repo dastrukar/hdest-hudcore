@@ -3,7 +3,7 @@ version 4.8
 // Base
 #include "zscript/HUDElement.zs"
 #include "zscript/HCStatusbar.zs"
-#include "zscript/HCStatusbar_Init.zs"
+#include "zscript/HCStatusbar_InitVariables.zs"
 #include "zscript/HCStatusbar_SuperDraw.zs"
 
 // Modules

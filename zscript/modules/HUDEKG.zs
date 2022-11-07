@@ -1,4 +1,4 @@
-class HUDEKGMonitor : HUDElement
+class HUDEKG : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{

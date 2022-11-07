@@ -1,4 +1,4 @@
-class HUDHeartbeatMonitor : HUDElement
+class HUDHeartbeat : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{
