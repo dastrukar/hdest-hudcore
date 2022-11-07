@@ -5,6 +5,67 @@ class HCStatusbar : HDStatusbar
 
 	int mxht;
 
+	// used for debugging sorter
+	private void PrintArray()
+	{
+		string text = "[ ";
+		for (int i = 0; i < _HUDElements.Size(); i++)
+		{
+			text = text.._HUDElements[i].ZLayer.." ";
+		}
+
+		Console.PrintF(text.."]");
+	}
+
+	// Poor man's QuickSort
+	private void QuickSortElements(int minIndex, int maxIndex)
+	{
+		if (minIndex >= maxIndex)
+			return;
+
+		int leftIndex = minIndex;
+		int rightIndex = maxIndex - 1;
+
+		// Pick pivot
+		int pivotIndex = maxIndex;
+		HUDElement pivot = _HUDElements[pivotIndex];
+
+		while (leftIndex < rightIndex)
+		{
+			// Find a value less than the pivot
+			while (leftIndex < rightIndex && _HUDElements[leftIndex].ZLayer >= pivot.ZLayer)
+			{
+				++leftIndex;
+			}
+
+			// Find a value larger than/equal to the pivot
+			while (leftIndex < rightIndex && _HUDElements[rightIndex].ZLayer < pivot.ZLayer)
+			{
+				--rightIndex;
+			}
+
+			if (leftIndex >= rightIndex)
+				break;
+
+			// Swap
+			HUDElement tmp = _HUDElements[leftIndex];
+			_HUDElements[leftIndex] = _HUDElements[rightIndex];
+			_HUDElements[rightIndex] = tmp;
+		}
+
+		// Try to swap pivot
+		if (leftIndex < pivotIndex && _HUDElements[leftIndex].ZLayer < pivot.ZLayer)
+		{
+			HUDElement tmp = _HUDElements[leftIndex];
+			_HUDElements[leftIndex] = pivot;
+			_HUDElements[pivotIndex] = tmp;
+			pivotIndex = leftIndex;
+		}
+
+		QuickSortElements(minIndex, pivotIndex - 1);
+		QuickSortElements(pivotIndex + 1, maxIndex);
+	}
+
 	override void Init()
 	{
 		Super.Init();
@@ -12,6 +73,7 @@ class HCStatusbar : HDStatusbar
 		Console.PrintF("Initialising HCStatusbar.");
 
 		// Get all classes that inherit from HUDElement
+		bool sortElements = false;
 		_HUDElements.Clear();
 		for (int ci = 0; ci < AllClasses.Size(); ci++)
 		{
@@ -22,6 +84,9 @@ class HCStatusbar : HDStatusbar
 
 				if (element.Namespace == "")
 					continue;
+
+				if (element.ZLayer != 0)
+					sortElements = true;
 
 				bool elementReplaced = false;
 				for (int ei = 0; ei < _HUDElements.Size(); ei++)
@@ -38,6 +103,9 @@ class HCStatusbar : HDStatusbar
 					_HUDElements.Push(element);
 			}
 		}
+
+		if (sortElements)
+			QuickSortElements(0, _HUDElements.Size() - 1);
 
 		InitVariables();
 	}
