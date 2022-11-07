@@ -118,7 +118,8 @@ do
 	if [[ $(FindInitVariables ${i}) != "" ]]
 	then
 		echo "Found init variable: ${i}"
-		printf "${i}\n" >> ${InitFile}
+		line=$(sed -e 's/^		int /		/' <<< "${i}")
+		printf "${line}\n" >> ${InitFile}
 		continue
 	fi
 
@@ -130,20 +131,6 @@ do
 			echo "Adding Core: Draw"
 			module="draw"
 			printf "${DrawHeader}" >> ${DrawFile}
-			continue
-
-		elif [[ "${ignore}" == "false" && $(SearchLine "${StartOfDrawIgnore}" "${i}") != "" ]]
-		then
-			ignore="true"
-			continue
-
-		elif [[ "${ignore}" == "true" ]]
-		then
-			if [[ $(SearchLine "${EndOfDrawIgnore}" "${i}") != "" ]]
-			then
-				ignore="false"
-			fi
-
 			continue
 		fi
 

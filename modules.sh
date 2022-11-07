@@ -23,7 +23,7 @@ InitVariables="
 ^		int mxht
 "
 
-StartOfDraw='^	override void Draw'
+StartOfDraw='^		\/\/blacking out'
 StartOfDrawIgnore='^		if\(automapactive\)'
 EndOfDrawIgnore='^		}$'
 EndOfDraw='^	\}'
@@ -33,6 +33,7 @@ StartOfEKG='^		\/\/health'
 EndOfEKG='^		\);else'
 
 # Headers
+Init="override void Init(HCStatusbar sb)"
 DrawHUDStuff="override void DrawHUDStuff(HCStatusbar sb)"
 AutomapActive=\
 "
@@ -52,10 +53,28 @@ InitHeader=\
 
 		// Get all classes that inherit from HUDElement
 		_HUDElements.Clear();
-		for (int i = 0; i < AllClasses.Size(); i++)
+		for (int ci = 0; ci < AllClasses.Size(); ci++)
 		{
-			if (AllClasses[i] is \"HUDElement\" && AllClasses[i].GetClassName() != \"HUDElement\")
-				_HUDElements.Push(HUDElement(new(AllClasses[i])));
+			if (AllClasses[ci] is \"HUDElement\" && AllClasses[ci].GetClassName() != \"HUDElement\")
+			{
+				let element = HUDElement(new(AllClasses[ci]));
+				element.Init(self);
+
+				if (element.Namespace == \"\")
+					continue;
+
+				int elementIndex = -1;
+				for (int ei = 0; ei < _HUDElements.Size(); ei++)
+				{
+					if (_HUDElements[ei].Namespace == element.Namespace)
+					{
+						elementIndex = ei;
+						_HUDElements[ei] = element;
+					}
+
+				}
+				_HUDElements.Push(element);
+			}
 		}
 
 "
@@ -70,6 +89,11 @@ DrawHeader=\
 HeartbeatHeader=\
 "class HUDHeartbeatMonitor : HUDElement
 {
+	${Init}
+	{
+		Namespace = \"heartbeat\";
+	}
+
 	${DrawHUDStuff}
 	{${AutomapActive}
 "
@@ -77,6 +101,11 @@ HeartbeatHeader=\
 EKGHeader=\
 "class HUDEKGMonitor : HUDElement
 {
+	${Init}
+	{
+		Namespace = \"ekg\";
+	}
+
 	${DrawHUDStuff}
 	{${AutomapActive}
 "

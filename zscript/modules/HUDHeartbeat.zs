@@ -1,5 +1,10 @@
 class HUDHeartbeatMonitor : HUDElement
 {
+	override void Init(HCStatusbar sb)
+	{
+		Namespace = "heartbeat";
+	}
+
 	override void DrawHUDStuff(HCStatusbar sb)
 	{
 		if(AutomapActive)

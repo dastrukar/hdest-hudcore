@@ -1,5 +1,10 @@
 class HUDEKGMonitor : HUDElement
 {
+	override void Init(HCStatusbar sb)
+	{
+		Namespace = "ekg";
+	}
+
 	override void DrawHUDStuff(HCStatusbar sb)
 	{
 		if(AutomapActive)
