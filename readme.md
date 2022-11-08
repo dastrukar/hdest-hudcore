@@ -1,4 +1,4 @@
-> so its like the core of the hud modification   - my friend
+> so its like the core of the hud modification   -my friend
 
 ## What?
 Basically a replacement of HDest's HUD, designed to be more modular for easier customisability.
