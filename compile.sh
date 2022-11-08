@@ -58,9 +58,11 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/blurred/sb.blurred/gi' <<< "${line}")
 	line=$(sed -E 's/GetMug/sb.GetMug/gi' <<< "${line}")
 	line=$(sed -E 's/usemughud/sb.usemughud/gi' <<< "${line}")
+	line=$(sed -E 's/mHUDFont/sb.mHUDFont/gi' <<< "${line}")
 
 	# Alternative variables :]
 	line=$(sed -E 's/mxht/sb.mxht/gi' <<< "${line}")
+	line=$(sed -E 's/mhht/sb.mhht/gi' <<< "${line}")
 
 	printf ${line}
 }
@@ -154,6 +156,25 @@ do
 	##
 	## Modules
 	##
+	# Frags
+	if [[ "${module}" == "frags" || $(SearchLine "${StartOfFrags}" "${i}") != "" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Frags"
+			module="frags"
+			ConditionalPrintF "${category}" "${FragsHeader}" "${CommonElse}" >> ${FragsFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${FragsFile}
+		if [[ $(SearchLine "${EndOfFrags}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${FragsFile}
+			TryCloseModule "${category}" >> ${FragsFile}
+		fi
+	fi
+
 	# Inventory
 	if [[ "${module}" == "inventory" || $(SearchLine "${StartOfInventory}" "${i}") != "" ]]
 	then
@@ -161,7 +182,7 @@ do
 		then
 			echo "Adding Module: Inventory"
 			module="inventory"
-			ConditionalPrintF "${category}" "${InventoryHeader}" "${GenericElse}" >> ${InventoryFile}
+			ConditionalPrintF "${category}" "${InventoryHeader}" "${CommonElse}" >> ${InventoryFile}
 		fi
 
 		ProcessLine "	${i}\n" >> ${InventoryFile}
@@ -180,7 +201,7 @@ do
 		then
 			echo "Adding Module: Heartbeat"
 			module="heartbeat"
-			ConditionalPrintF "${category}" "${HeartbeatHeader}" "${GenericElse}" >> ${HeartbeatFile}
+			ConditionalPrintF "${category}" "${HeartbeatHeader}" "${CommonElse}" >> ${HeartbeatFile}
 		fi
 
 		ProcessLine "	${i}\n" >> ${HeartbeatFile}
@@ -199,7 +220,7 @@ do
 		then
 			echo "Adding Module: EKG"
 			module="ekg"
-			ConditionalPrintF "${category}" "${EKGHeader}" "${GenericElse}" >> ${EKGFile}
+			ConditionalPrintF "${category}" "${EKGHeader}" "${CommonElse}" >> ${EKGFile}
 		fi
 
 		ProcessLine "	${i}\n" >> ${EKGFile}
@@ -222,7 +243,7 @@ do
 		then
 			echo "Adding Module: Mugshot"
 			module="mugshot"
-			ConditionalPrintF "${category}" "${MugshotHeader}" "${GenericElse}" >> ${MugshotFile}
+			ConditionalPrintF "${category}" "${MugshotHeader}" "${CommonElse}" >> ${MugshotFile}
 		fi
 
 		ProcessLine "	${i}\n" >> ${MugshotFile}

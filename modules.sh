@@ -2,25 +2,34 @@
 # This is just used for seperating some variables that would otherwise clutter up the main script
 
 # Generic stuff
-Condition="(sb.CPlayer.mo == sb.CPlayer.Camera && sb.hpl.Health > 0)"
-GenericIf=\
-"		if ${Condition}
-		{
-			sb.BeginHUD(forceScaled: false);
-"
-GenericElse=\
-"		else if ${Condition}
-		{
-			sb.BeginHUD(forceScaled: false);
-"
 GenericEnd=\
 "	}
 }
 "
 
+# Common stuff
+CommonCondition="(
+			sb.CPlayer.mo == sb.CPlayer.Camera
+			&& sb.hpl.Health > 0
+			&& State <= sb.HUD_Fullscreen
+			&& sb.HUDLevel > 0
+			&& !HDSpectator(sb.hpl)
+		)"
+CommonIf=\
+"		if ${CommonCondition}
+		{
+			sb.BeginHUD(forceScaled: false);
+"
+CommonElse=\
+"		else if ${CommonCondition}
+		{
+			sb.BeginHUD(forceScaled: false);
+"
+
 # Files
 InitFile="zscript/HCStatusbar_InitVariables.zs"
 DrawFile="zscript/HCStatusbar_SuperDraw.zs"
+FragsFile="zscript/modules/HUDFrags.zs"
 InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
@@ -29,12 +38,15 @@ MugshotFile="zscript/modules/HUDMugshot.zs"
 # Regex
 InitVariables="
 ^		int mxht
+^		int mhht
 "
 
 StartOfDraw='^		\/\/blacking out'
 StartOfDrawIgnore='^		if\(automapactive\)'
 EndOfDrawIgnore='^		}$'
 EndOfDraw='^	\}'
+StartOfFrags='^		\/\/frags'
+EndOfFrags='^		\);'
 StartOfInventory='^		\/\/inventory'
 EndOfInventory='^		DrawInvSel'
 StartOfHeartbeat='^		\/\/heartbeat'
@@ -48,10 +60,15 @@ EndOfMugshot2='^		\);'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
-DrawHUDStuff="override void DrawHUDStuff(HCStatusbar sb)"
+DrawHUDStuff="override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)"
+CheckSpectator=\
+"
+		if (HDSpectator(sb.hpl))
+			return;
+"
 AutomapActive=\
 "
-		if(AutomapActive)
+		if (AutomapActive)
 		{
 			sb.BeginHUD();
 "
@@ -70,6 +87,20 @@ DrawHeader=\
 	{
 "
 
+FragsHeader=\
+"class HUDFrags : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"frags\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}
+		${AutomapActive}
+"
+
 InventoryHeader=\
 "class HUDInventory : HUDElement
 {
@@ -80,7 +111,8 @@ InventoryHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${AutomapActive}
+	{${CheckSpectator}
+		${AutomapActive}
 "
 
 HeartbeatHeader=\
@@ -93,7 +125,8 @@ HeartbeatHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${AutomapActive}
+	{${CheckSpectator}
+		${AutomapActive}
 "
 
 EKGHeader=\
@@ -106,7 +139,8 @@ EKGHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${AutomapActive}
+	{${CheckSpectator}
+		${AutomapActive}
 "
 
 MugshotHeader=\
@@ -119,5 +153,6 @@ MugshotHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${AutomapActive}
+	{${CheckSpectator}
+		${AutomapActive}
 "

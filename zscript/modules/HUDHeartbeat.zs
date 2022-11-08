@@ -6,9 +6,13 @@ class HUDHeartbeat : HUDElement
 		Namespace = "heartbeat";
 	}
 
-	override void DrawHUDStuff(HCStatusbar sb)
+	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
 	{
-		if(AutomapActive)
+		if (HDSpectator(sb.hpl))
+			return;
+
+		
+		if (AutomapActive)
 		{
 			sb.BeginHUD();
 
@@ -25,7 +29,13 @@ class HUDHeartbeat : HUDElement
 				);
 			}
 		}
-		else if (sb.CPlayer.mo == sb.CPlayer.Camera && sb.hpl.Health > 0)
+		else if (
+			sb.CPlayer.mo == sb.CPlayer.Camera
+			&& sb.hpl.Health > 0
+			&& State <= sb.HUD_Fullscreen
+			&& sb.HUDLevel > 0
+			&& !HDSpectator(sb.hpl)
+		)
 		{
 			sb.BeginHUD(forceScaled: false);
 			//heartbeat/playercolour tracker

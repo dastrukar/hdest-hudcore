@@ -6,16 +6,26 @@ class HUDInventory : HUDElement
 		Namespace = "inventory";
 	}
 
-	override void DrawHUDStuff(HCStatusbar sb)
+	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
 	{
-		if(AutomapActive)
+		if (HDSpectator(sb.hpl))
+			return;
+
+		
+		if (AutomapActive)
 		{
 			sb.BeginHUD();
 
 			//inventory selector
 			sb.drawInvSel(6,100,10,109,sb.DI_TOPLEFT);
 		}
-		else if (sb.CPlayer.mo == sb.CPlayer.Camera && sb.hpl.Health > 0)
+		else if (
+			sb.CPlayer.mo == sb.CPlayer.Camera
+			&& sb.hpl.Health > 0
+			&& State <= sb.HUD_Fullscreen
+			&& sb.HUDLevel > 0
+			&& !HDSpectator(sb.hpl)
+		)
 		{
 			sb.BeginHUD(forceScaled: false);
 			//inventory

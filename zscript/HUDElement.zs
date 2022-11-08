@@ -15,5 +15,5 @@ class HUDElement ui abstract
 
 	virtual void Tick(HCStatusbar sb) {}
 
-	virtual void DrawHUDStuff(HCStatusbar sb) {}
+	virtual void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac) {}
 }
