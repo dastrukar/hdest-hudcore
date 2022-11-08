@@ -2,6 +2,7 @@ class HUDHeartbeat : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{
+		ZLayer = 0;
 		Namespace = "heartbeat";
 	}
 

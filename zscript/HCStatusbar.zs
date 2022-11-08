@@ -4,6 +4,7 @@ class HCStatusbar : HDStatusbar
 	private Array<HUDElement> _HUDElements;
 
 	int mxht;
+	bool UseMugHUD;
 
 	// used for debugging sorter
 	private void PrintArray()
@@ -32,14 +33,14 @@ class HCStatusbar : HDStatusbar
 
 		while (leftIndex < rightIndex)
 		{
-			// Find a value less than the pivot
-			while (leftIndex < rightIndex && _HUDElements[leftIndex].ZLayer >= pivot.ZLayer)
+			// Find a value larger than to the pivot
+			while (leftIndex < rightIndex && _HUDElements[leftIndex].ZLayer < pivot.ZLayer)
 			{
 				++leftIndex;
 			}
 
-			// Find a value larger than/equal to the pivot
-			while (leftIndex < rightIndex && _HUDElements[rightIndex].ZLayer < pivot.ZLayer)
+			// Find a value less than/equal to the pivot
+			while (leftIndex < rightIndex && _HUDElements[rightIndex].ZLayer >= pivot.ZLayer)
 			{
 				--rightIndex;
 			}
@@ -54,7 +55,7 @@ class HCStatusbar : HDStatusbar
 		}
 
 		// Try to swap pivot
-		if (leftIndex < pivotIndex && _HUDElements[leftIndex].ZLayer < pivot.ZLayer)
+		if (leftIndex < pivotIndex && _HUDElements[leftIndex].ZLayer > pivot.ZLayer)
 		{
 			HUDElement tmp = _HUDElements[leftIndex];
 			_HUDElements[leftIndex] = pivot;
@@ -74,6 +75,7 @@ class HCStatusbar : HDStatusbar
 
 		// Get all classes that inherit from HUDElement
 		bool sortElements = false;
+		int highestZLayer = 0;
 		_HUDElements.Clear();
 		for (int ci = 0; ci < AllClasses.Size(); ci++)
 		{
@@ -85,7 +87,11 @@ class HCStatusbar : HDStatusbar
 				if (element.Namespace == "")
 					continue;
 
-				if (element.ZLayer != 0)
+				// Check if the list is unsorted
+				if (element.ZLayer > highestZLayer)
+					highestZLayer = element.ZLayer;
+
+				else if (element.ZLayer < highestZLayer)
 					sortElements = true;
 
 				bool elementReplaced = false;
@@ -108,6 +114,7 @@ class HCStatusbar : HDStatusbar
 			QuickSortElements(0, _HUDElements.Size() - 1);
 
 		InitVariables();
+		UseMugHUD = false;
 	}
 
 	override void Draw(int state, double ticFrac)
@@ -124,7 +131,16 @@ class HCStatusbar : HDStatusbar
 			DrawAutomapHUD(ticFrac);
 		}
 		else
+		{
 			SetSize(0, 320, 200);
+			UseMugHUD = (
+				hd_hudstyle.GetInt() == 1
+				|| (
+					State == HUD_Fullscreen
+					&& !hd_hudstyle.GetInt()
+				)
+			);
+		}
 
 		// Draw elements
 		for (int i = 0; i < _HUDElements.Size(); i++)

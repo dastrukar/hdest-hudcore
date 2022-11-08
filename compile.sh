@@ -31,18 +31,6 @@ ignore="false"
 # Get init stuff
 printf "${InitHeader}" >> ${InitFile}
 
-function FindInitVariables() # 1: string
-{
-	for var in ${InitVariables}
-	do
-		if [[ $(SearchLine "${var}" "${1}") != "" ]]
-		then
-			printf "true"
-			continue
-		fi
-	done
-}
-
 function SearchLine() # 1: regex   2: string
 {
 	grep -E "${1}" <<< "${2}"
@@ -51,6 +39,9 @@ function SearchLine() # 1: regex   2: string
 function ProcessLine() # 1: string
 {
 	line=${1}
+
+	# Could this be more efficient?
+	# Probably.
 
 	# Add access to HDStatusbar variables
 	line=$(sed -E 's/hpl/sb.hpl/gi' <<< "${line}")
@@ -64,11 +55,26 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/DI_/sb.DI_/gi' <<< "${line}")
 	line=$(sed -E 's/pnew/sb.pnew/gi' <<< "${line}")
 	line=$(sed -E 's/FormatNumber/sb.FormatNumber/gi' <<< "${line}")
+	line=$(sed -E 's/blurred/sb.blurred/gi' <<< "${line}")
+	line=$(sed -E 's/GetMug/sb.GetMug/gi' <<< "${line}")
+	line=$(sed -E 's/usemughud/sb.usemughud/gi' <<< "${line}")
 
 	# Alternative variables :]
 	line=$(sed -E 's/mxht/sb.mxht/gi' <<< "${line}")
 
 	printf ${line}
+}
+
+function FindInitVariables() # 1: string
+{
+	for var in ${InitVariables}
+	do
+		if [[ $(SearchLine "${var}" "${1}") != "" ]]
+		then
+			printf "true"
+			continue
+		fi
+	done
 }
 
 function TryCloseModule() # 1: category
@@ -119,6 +125,7 @@ do
 	then
 		echo "Found init variable: ${i}"
 		line=$(sed -e 's/^		int /		/' <<< "${i}")
+		line=$(sed -e 's/^		bool /		/' <<< "${i}")
 		printf "${line}\n" >> ${InitFile}
 		continue
 	fi
@@ -147,6 +154,25 @@ do
 	##
 	## Modules
 	##
+	# Inventory
+	if [[ "${module}" == "inventory" || $(SearchLine "${StartOfInventory}" "${i}") != "" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Inventory"
+			module="inventory"
+			ConditionalPrintF "${category}" "${InventoryHeader}" "${GenericElse}" >> ${InventoryFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${InventoryFile}
+		if [[ $(SearchLine "${EndOfInventory}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${InventoryFile}
+			TryCloseModule "${category}" >> ${InventoryFile}
+		fi
+	fi
+
 	# Heartbeat Monitor
 	if [[ "${module}" == "heartbeat" || $(SearchLine "${StartOfHeartbeat}" "${i}") != "" ]]
 	then
@@ -182,6 +208,29 @@ do
 			module=""
 			printf "		}\n" >> ${EKGFile}
 			TryCloseModule "${category}" >> ${EKGFile}
+		fi
+	fi
+
+	# Mugshot
+	if [[
+		"${module}" == "mugshot"
+		|| $(SearchLine "${StartOfMugshot1}" "${i}") != ""
+		|| $(SearchLine "${StartOfMugshot2}" "${i}") != ""
+	]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Mugshot"
+			module="mugshot"
+			ConditionalPrintF "${category}" "${MugshotHeader}" "${GenericElse}" >> ${MugshotFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${MugshotFile}
+		if [[ $(SearchLine "${EndOfMugshot1}" "${i}") != "" || $(SearchLine "${EndOfMugshot2}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${MugshotFile}
+			TryCloseModule "${category}" >> ${MugshotFile}
 		fi
 	fi
 done

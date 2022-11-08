@@ -2,6 +2,7 @@ class HUDEKG : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{
+		ZLayer = 0;
 		Namespace = "ekg";
 	}
 
