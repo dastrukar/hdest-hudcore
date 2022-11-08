@@ -11,10 +11,8 @@ class HUDHeartbeat : HUDElement
 		if (HDSpectator(sb.hpl))
 			return;
 
-		
 		if (AutomapActive)
 		{
-			sb.BeginHUD();
 
 			//heartbeat/playercolour tracker
 			if(sb.hpl && sb.hpl.beatmax){
@@ -37,7 +35,6 @@ class HUDHeartbeat : HUDElement
 			&& !HDSpectator(sb.hpl)
 		)
 		{
-			sb.BeginHUD(forceScaled: false);
 			//heartbeat/playercolour tracker
 			if(sb.hpl.beatmax){
 				float cpb=sb.hpl.beatcount*1./sb.hpl.beatmax;

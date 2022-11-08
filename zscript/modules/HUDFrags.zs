@@ -11,10 +11,8 @@ class HUDFrags : HUDElement
 		if (HDSpectator(sb.hpl))
 			return;
 
-		
 		if (AutomapActive)
 		{
-			sb.BeginHUD();
 
 			//frags
 			if(deathmatch||fraglimit>0)sb.drawstring(
@@ -31,7 +29,6 @@ class HUDFrags : HUDElement
 			&& !HDSpectator(sb.hpl)
 		)
 		{
-			sb.BeginHUD(forceScaled: false);
 			//frags
 			if(deathmatch||fraglimit>0)sb.drawstring(
 				sb.mHUDFont,sb.FormatNumber(sb.cplayer.fragcount),

@@ -11,10 +11,8 @@ class HUDEKG : HUDElement
 		if (HDSpectator(sb.hpl))
 			return;
 
-		
 		if (AutomapActive)
 		{
-			sb.BeginHUD();
 
 			//health
 			if(hd_debug)sb.drawstring(
@@ -31,7 +29,6 @@ class HUDEKG : HUDElement
 			&& !HDSpectator(sb.hpl)
 		)
 		{
-			sb.BeginHUD(forceScaled: false);
 			//health
 			if(hd_debug)sb.drawstring(
 				sb.pnewsmallfont,sb.FormatNumber(sb.hpl.health),

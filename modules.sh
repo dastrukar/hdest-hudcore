@@ -18,12 +18,10 @@ CommonCondition="(
 CommonIf=\
 "		if ${CommonCondition}
 		{
-			sb.BeginHUD(forceScaled: false);
 "
 CommonElse=\
 "		else if ${CommonCondition}
 		{
-			sb.BeginHUD(forceScaled: false);
 "
 
 # Files
@@ -70,7 +68,6 @@ AutomapActive=\
 "
 		if (AutomapActive)
 		{
-			sb.BeginHUD();
 "
 
 InitHeader=\
@@ -97,8 +94,7 @@ FragsHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}
-		${AutomapActive}
+	{${CheckSpectator}${AutomapActive}
 "
 
 InventoryHeader=\
@@ -111,8 +107,7 @@ InventoryHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}
-		${AutomapActive}
+	{${CheckSpectator}${AutomapActive}
 "
 
 HeartbeatHeader=\
@@ -125,8 +120,7 @@ HeartbeatHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}
-		${AutomapActive}
+	{${CheckSpectator}${AutomapActive}
 "
 
 EKGHeader=\
@@ -139,8 +133,7 @@ EKGHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}
-		${AutomapActive}
+	{${CheckSpectator}${AutomapActive}
 "
 
 MugshotHeader=\
@@ -153,6 +146,5 @@ MugshotHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}
-		${AutomapActive}
+	{${CheckSpectator}${AutomapActive}
 "

@@ -129,11 +129,13 @@ class HCStatusbar : HDStatusbar
 		if (AutomapActive)
 		{
 			SetSize(0, 480, 300);
+			BeginHUD();
 			DrawAutomapHUD(ticFrac);
 		}
 		else
 		{
 			SetSize(0, 320, 200);
+			BeginHUD(forceScaled: false);
 			UseMugHUD = (
 				hd_hudstyle.GetInt() == 1
 				|| (
