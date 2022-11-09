@@ -280,6 +280,25 @@ do
 			TryCloseModule "${category}" >> ${MugshotFile}
 		fi
 	fi
+
+	# WeaponStatus
+	if [[ "${module}" == "weaponstatus" || $(SearchLine "${StartOfWeaponStatus}" "${i}") != "" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: WeaponStatus"
+			module="weaponstatus"
+			printf "${WeaponStatusHeader}" >> ${WeaponStatusFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${WeaponStatusFile}
+		if [[ $(SearchLine "${EndOfWeaponStatus}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${WeaponStatusFile}
+			TryCloseModule "${category}" >> ${WeaponStatusFile}
+		fi
+	fi
 done
 
 # Close the init file

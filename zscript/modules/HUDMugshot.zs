@@ -18,7 +18,8 @@ class HUDMugshot : HUDElement
 			sb.drawTexture(sb.GetMugShot(5,Mugshot.CUSTOM,sb.GetMug(sb.hpl.mugshot)),(6,-14),sb.DI_BOTTOMLEFT,alpha:sb.blurred?0.2:1.);
 		}
 		else if (
-			sb.CPlayer.mo == sb.CPlayer.Camera
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
 			&& sb.hpl.Health > 0
 			&& State <= sb.HUD_Fullscreen
 			&& sb.HUDLevel > 0

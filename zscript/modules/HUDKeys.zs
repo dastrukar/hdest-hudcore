@@ -23,7 +23,8 @@ class HUDKeys : HUDElement
 			if(sb.hpl.countinv("RedSkull"))sb.drawimage("RSKUB0",(6,70),sb.DI_TOPLEFT);
 		}
 		else if (
-			sb.CPlayer.mo == sb.CPlayer.Camera
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
 			&& sb.hpl.Health > 0
 			&& State <= sb.HUD_Fullscreen
 			&& sb.HUDLevel > 0

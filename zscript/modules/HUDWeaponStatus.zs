@@ -1,9 +1,9 @@
-class HUDInventory : HUDElement
+class HUDWeaponStatus : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{
 		ZLayer = 0;
-		Namespace = "inventory";
+		Namespace = "weaponstatus";
 	}
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
@@ -11,13 +11,7 @@ class HUDInventory : HUDElement
 		if (HDSpectator(sb.hpl))
 			return;
 
-		if (AutomapActive)
-		{
-
-			//inventory selector
-			sb.drawInvSel(6,100,10,109,sb.DI_TOPLEFT);
-		}
-		else if (
+		if (
 			!AutomapActive
 			&& sb.CPlayer.mo == sb.CPlayer.Camera
 			&& sb.hpl.Health > 0
@@ -26,9 +20,10 @@ class HUDInventory : HUDElement
 			&& !HDSpectator(sb.hpl)
 		)
 		{
-			//inventory
-			sb.drawSurroundingInv(25,-4,42,sb.mxht,sb.DI_SCREEN_CENTER_BOTTOM);
-			sb.drawInvSel(25,-14,42,sb.mxht,sb.DI_SCREEN_CENTER_BOTTOM);
+
+			//weapon readouts!
+			if(sb.cplayer.readyweapon&&sb.cplayer.readyweapon!=WP_NOCHANGE)
+				sb.drawweaponstatus(sb.cplayer.readyweapon);
 		}
 	}
 }

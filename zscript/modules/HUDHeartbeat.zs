@@ -28,7 +28,8 @@ class HUDHeartbeat : HUDElement
 			}
 		}
 		else if (
-			sb.CPlayer.mo == sb.CPlayer.Camera
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
 			&& sb.hpl.Health > 0
 			&& State <= sb.HUD_Fullscreen
 			&& sb.HUDLevel > 0

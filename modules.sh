@@ -9,7 +9,8 @@ GenericEnd=\
 
 # Common stuff
 CommonCondition="(
-			sb.CPlayer.mo == sb.CPlayer.Camera
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
 			&& sb.hpl.Health > 0
 			&& State <= sb.HUD_Fullscreen
 			&& sb.HUDLevel > 0
@@ -33,6 +34,7 @@ InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
 MugshotFile="zscript/modules/HUDMugshot.zs"
+WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
 
 # Regex
 InitVariables="
@@ -65,6 +67,9 @@ StartOfMugshot1='^		\/\/mugshot'
 EndOfMugshot1='^		DrawTexture'
 StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot2='^		\);'
+
+StartOfWeaponStatus='^		\/\/weapon readouts'
+EndOfWeaponStatus='drawweaponstatus'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -170,4 +175,18 @@ MugshotHeader=\
 
 	${DrawHUDStuff}
 	{${CheckSpectator}${AutomapActive}
+"
+
+WeaponStatusHeader=\
+"class HUDWeaponStatus : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"weaponstatus\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}
+${CommonIf}
 "

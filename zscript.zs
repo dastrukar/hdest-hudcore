@@ -13,3 +13,4 @@ version 4.8
 #include "zscript/modules/HUDEKG.zs"
 #include "zscript/modules/HUDHeartbeat.zs"
 #include "zscript/modules/HUDMugshot.zs"
+#include "zscript/modules/HUDWeaponStatus.zs"
