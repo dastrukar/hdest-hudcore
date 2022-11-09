@@ -5,7 +5,7 @@ extend class HCStatusbar
 		if(hpl.blackout>0)fill(
 			color(hpl.blackout,6,2,0),0,0,screen.getwidth(),screen.getheight()
 		);
-		if(hpl.health<1)drawtip();
+		drawtip();
 		if(idmypos)drawmypos();
 	}
 }

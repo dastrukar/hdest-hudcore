@@ -11,8 +11,10 @@ rm -rfv zscript/HCStatusbar_*
 rm -rfv zscript/modules/*
 
 # Make sure the submodule is up to date
+echo "Initialising hdest submodule..."
 git submodule init
 git submodule update
+git -C hideousdestructor checkout ${branchTag}
 
 # Split by lines
 IFS="
@@ -150,7 +152,10 @@ do
 			continue
 		fi
 
-		printf "${i}\n" >> ${DrawFile}
+		line="${i}"
+		# Always draw tips
+		line=$(sed -E 's/if\(hpl\.health<1\)drawtip/drawtip/gi' <<< "${line}")
+		printf "${line}\n" >> ${DrawFile}
 	fi
 
 	##
