@@ -28,6 +28,7 @@ CommonElse=\
 InitFile="zscript/HCStatusbar_InitVariables.zs"
 DrawFile="zscript/HCStatusbar_SuperDraw.zs"
 FragsFile="zscript/modules/HUDFrags.zs"
+KeysFile="zscript/modules/HUDKeys.zs"
 InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
@@ -50,6 +51,9 @@ EndOfFrags='^		\);'
 
 StartOfInventory='^		\/\/inventory'
 EndOfInventory='^		DrawInvSel'
+
+StartOfKeys='^		\/\/[kK][eE][yY][sS]'
+EndOfKeys='^		if\(hpl.countinv\(\"RedSkull\"\)\)'
 
 StartOfHeartbeat='^		\/\/heartbeat'
 EndOfHeartbeat='^		\}'
@@ -110,6 +114,19 @@ InventoryHeader=\
 	{
 		ZLayer = 0;
 		Namespace = \"inventory\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
+"
+
+KeysHeader=\
+"class HUDKeys : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"keys\";
 	}
 
 	${DrawHUDStuff}

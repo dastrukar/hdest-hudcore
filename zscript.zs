@@ -9,6 +9,7 @@ version 4.8
 // Modules
 #include "zscript/modules/HUDFrags.zs"
 #include "zscript/modules/HUDInventory.zs"
+#include "zscript/modules/HUDKeys.zs"
 #include "zscript/modules/HUDEKG.zs"
 #include "zscript/modules/HUDHeartbeat.zs"
 #include "zscript/modules/HUDMugshot.zs"

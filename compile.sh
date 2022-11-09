@@ -175,6 +175,32 @@ do
 		fi
 	fi
 
+	# Keys
+	if [[ "${module}" == "keys" || $(SearchLine "${StartOfKeys}" "${i}") != "" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Keys"
+			module="keys"
+			ConditionalPrintF "${category}" "${KeysHeader}" "${CommonElse}" >> ${KeysFile}
+		fi
+
+		if [[ "${category}" == "common" && $(SearchLine "${StartOfEKG}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${KeysFile}
+			TryCloseModule "${category}" >> ${KeysFile}
+		else
+			ProcessLine "	${i}\n" >> ${KeysFile}
+		fi
+
+		if [[ "${category}" == "automap" && $(SearchLine "${EndOfKeys}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${KeysFile}
+		fi
+	fi
+
 	# Inventory
 	if [[ "${module}" == "inventory" || $(SearchLine "${StartOfInventory}" "${i}") != "" ]]
 	then
