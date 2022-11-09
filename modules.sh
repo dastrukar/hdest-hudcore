@@ -41,19 +41,25 @@ InitVariables="
 
 StartOfDraw='^		\/\/blacking out'
 StartOfDrawIgnore='^		if\(automapactive\)'
+
 EndOfDrawIgnore='^		}$'
 EndOfDraw='^	\}'
+
 StartOfFrags='^		\/\/frags'
 EndOfFrags='^		\);'
+
 StartOfInventory='^		\/\/inventory'
 EndOfInventory='^		DrawInvSel'
+
 StartOfHeartbeat='^		\/\/heartbeat'
 EndOfHeartbeat='^		\}'
+
 StartOfEKG='^		\/\/health'
 EndOfEKG='^		\);else'
+
 StartOfMugshot1='^		\/\/mugshot'
-StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot1='^		DrawTexture'
+StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot2='^		\);'
 
 # Headers
@@ -94,7 +100,7 @@ FragsHeader=\
 	}
 
 	${DrawHUDStuff}
-	{${CheckSpectator}${AutomapActive}
+	{${AutomapActive}
 "
 
 InventoryHeader=\

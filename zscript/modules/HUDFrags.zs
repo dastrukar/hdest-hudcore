@@ -8,9 +8,6 @@ class HUDFrags : HUDElement
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
 	{
-		if (HDSpectator(sb.hpl))
-			return;
-
 		if (AutomapActive)
 		{
 
