@@ -6,6 +6,8 @@ Basically a replacement of HDest's HUD, designed to be more modular for easier c
 On it's own, HUD Core is basically just the default HUD.   
 (though if you spot any oddities with the normal HUD stuff, please report it)
 
+NOTE: Please don't copy the code of the modules, as they are poorly compiled through brute force scripting.
+
 ## How to use
 Just load it up with HDest, and it should run.   
 Again, you have to use addons that use HUD Core for anything to change.
