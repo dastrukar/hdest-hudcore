@@ -120,7 +120,6 @@ class HCStatusbar : HDStatusbar
 
 	override void Draw(int state, double ticFrac)
 	{
-		hpl = HDPlayerPawn(CPlayer.mo);
 		if (!CPlayer || !hpl)
 			return;
 
