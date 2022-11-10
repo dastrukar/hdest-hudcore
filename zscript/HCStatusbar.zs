@@ -118,6 +118,17 @@ class HCStatusbar : HDStatusbar
 		UseMugHUD = false;
 	}
 
+	override void Tick()
+	{
+		Super.Tick();
+
+		// Tick elements
+		for (int i = 0; i < _HUDElements.Size(); i++)
+		{
+			_HUDElements[i].Tick(self, state, ticFrac);
+		}
+	}
+
 	override void Draw(int state, double ticFrac)
 	{
 		if (!CPlayer || !hpl)
