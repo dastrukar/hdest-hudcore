@@ -293,7 +293,7 @@ do
 		fi
 	fi
 
-	# WeaponStatus
+	# ItemAdditions
 	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
