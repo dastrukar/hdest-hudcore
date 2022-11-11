@@ -125,7 +125,7 @@ class HCStatusbar : HDStatusbar
 		// Tick elements
 		for (int i = 0; i < _HUDElements.Size(); i++)
 		{
-			_HUDElements[i].Tick(self, state, ticFrac);
+			_HUDElements[i].Tick(self);
 		}
 	}
 
