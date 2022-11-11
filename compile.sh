@@ -100,6 +100,14 @@ function ConditionalPrintF() # 1: category   2: automapString   3: commonString
 	fi
 }
 
+function GenericChecker() # 1: module   2: searchLine   3: string
+{
+	if [[ "${module}" == "${1}" || $(SearchLine "${2}" "${3}") != "" ]]
+	then
+		printf "true"
+	fi
+}
+
 for i in $(cat "${statusbarPath}")
 do
 	##
@@ -135,7 +143,7 @@ do
 	fi
 
 	# Draw functions
-	if [[ "${module}" == "draw" || $(SearchLine "${StartOfDraw}" "${i}") != "" ]]
+	if [[ $(GenericChecker "draw" "${StartOfDraw}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -162,7 +170,7 @@ do
 	## Modules
 	##
 	# Frags
-	if [[ "${module}" == "frags" || $(SearchLine "${StartOfFrags}" "${i}") != "" ]]
+	if [[ $(GenericChecker "frags" "${StartOfFrags}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -181,7 +189,7 @@ do
 	fi
 
 	# Keys
-	if [[ "${module}" == "keys" || $(SearchLine "${StartOfKeys}" "${i}") != "" ]]
+	if [[ $(GenericChecker "keys" "${StartOfKeys}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -207,7 +215,7 @@ do
 	fi
 
 	# Inventory
-	if [[ "${module}" == "inventory" || $(SearchLine "${StartOfInventory}" "${i}") != "" ]]
+	if [[ $(GenericChecker "inventory" "${StartOfInventory}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -226,7 +234,7 @@ do
 	fi
 
 	# Heartbeat Monitor
-	if [[ "${module}" == "heartbeat" || $(SearchLine "${StartOfHeartbeat}" "${i}") != "" ]]
+	if [[ $(GenericChecker "heartbeat" "${StartOfHeartbeat}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -245,7 +253,7 @@ do
 	fi
 
 	# EKG
-	if [[ "${module}" == "ekg" || $(SearchLine "${StartOfEKG}" "${i}") != "" ]]
+	if [[ $(GenericChecker "ekg" "${StartOfEKG}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -265,9 +273,8 @@ do
 
 	# Mugshot
 	if [[
-		"${module}" == "mugshot"
-		|| $(SearchLine "${StartOfMugshot1}" "${i}") != ""
-		|| $(SearchLine "${StartOfMugshot2}" "${i}") != ""
+		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}") == "true"
+		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}") == "true"
 	]]
 	then
 		if [[ "${module}" == "" ]]
@@ -287,7 +294,7 @@ do
 	fi
 
 	# WeaponStatus
-	if [[ "${module}" == "weaponstatus" || $(SearchLine "${StartOfWeaponStatus}" "${i}") != "" ]]
+	if [[ $(GenericChecker "weaponstatus" "${StartOfWeaponStatus}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
