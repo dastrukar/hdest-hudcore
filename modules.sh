@@ -36,6 +36,7 @@ EKGFile="zscript/modules/HUDEKG.zs"
 MugshotFile="zscript/modules/HUDMugshot.zs"
 ItemAdditionsFile="zscript/modules/HUDItemAdditions.zs"
 WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
+WeaponSpriteFile="zscript/modules/HUDWeaponSprite.zs"
 
 # Regex
 InitVariables="
@@ -75,6 +76,10 @@ EndOfItemAdditions2='^		\);'
 
 StartOfWeaponStatus='^		\/\/weapon readouts'
 EndOfWeaponStatus='drawweaponstatus'
+
+StartOfWeaponSprite1='^		\/\/gun'
+StartOfWeaponSprite2='^		\/\/weapon sprite'
+EndOfWeaponSprite='^		drawselectedweapon'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -207,4 +212,17 @@ WeaponStatusHeader=\
 	${DrawHUDStuff}
 	{${CheckSpectator}
 ${CommonIf}
+"
+
+WeaponSpriteHeader=\
+"class HUDWeaponSprite : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"weaponsprite\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
 "

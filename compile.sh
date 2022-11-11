@@ -61,6 +61,11 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/GetMug/sb.GetMug/gi' <<< "${line}")
 	line=$(sed -E 's/usemughud/sb.usemughud/gi' <<< "${line}")
 	line=$(sed -E 's/mHUDFont/sb.mHUDFont/gi' <<< "${line}")
+	line=$(sed -E 's/hudlevel/sb.hudlevel/gi' <<< "${line}")
+
+	# Fix some mistakes
+	line=$(sed -E 's/sb\.hd_hudsprite/hd_hudsprite/gi' <<< "${line}")
+	line=$(sed -E 's/_sb\./_/gi' <<< "${line}")
 
 	# Alternative variables :]
 	line=$(sed -E 's/mxht/sb.mxht/gi' <<< "${line}")
@@ -331,6 +336,28 @@ do
 			module=""
 			printf "		}\n" >> ${WeaponStatusFile}
 			TryCloseModule "${category}" >> ${WeaponStatusFile}
+		fi
+	fi
+
+	# WeaponSprite
+	if [[
+		$(GenericChecker "weaponsprite" "${StartOfWeaponSprite1}" "${i}") == "true"
+		|| $(GenericChecker "weaponsprite" "${StartOfWeaponSprite2}" "${i}") == "true"
+	]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: WeaponSprite"
+			module="weaponsprite"
+			ConditionalPrintF "${category}" "${WeaponSpriteHeader}" "${CommonElse}" >> ${WeaponSpriteFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${WeaponSpriteFile}
+		if [[ $(SearchLine "${EndOfWeaponSprite}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${WeaponSpriteFile}
+			TryCloseModule "${category}" >> ${WeaponSpriteFile}
 		fi
 	fi
 done
