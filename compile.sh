@@ -294,6 +294,28 @@ do
 	fi
 
 	# WeaponStatus
+	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: ItemAdditions"
+			module="itemadditions"
+			ConditionalPrintF "${category}" "${ItemAdditionsHeader}" "${CommonElse}" >> ${ItemAdditionsFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${ItemAdditionsFile}
+		if [[
+			("${category}" == "automap" && $(SearchLine "${EndOfItemAdditions1}" "${i}") != "")
+			|| ("${category}" == "common" && $(SearchLine "${EndOfItemAdditions2}" "${i}") != "")
+		]]
+		then
+			module=""
+			printf "		}\n" >> ${ItemAdditionsFile}
+			TryCloseModule "${category}" >> ${ItemAdditionsFile}
+		fi
+	fi
+
+	# WeaponStatus
 	if [[ $(GenericChecker "weaponstatus" "${StartOfWeaponStatus}" "${i}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]

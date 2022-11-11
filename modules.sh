@@ -34,6 +34,7 @@ InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
 MugshotFile="zscript/modules/HUDMugshot.zs"
+ItemAdditionsFile="zscript/modules/HUDItemAdditions.zs"
 WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
 
 # Regex
@@ -67,6 +68,10 @@ StartOfMugshot1='^		\/\/mugshot'
 EndOfMugshot1='^		DrawTexture'
 StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot2='^		\);'
+
+StartOfItemAdditions='^		\/\/items'
+EndOfItemAdditions1='^		DrawItemHUDAdditions'
+EndOfItemAdditions2='^		\);'
 
 StartOfWeaponStatus='^		\/\/weapon readouts'
 EndOfWeaponStatus='drawweaponstatus'
@@ -171,6 +176,19 @@ MugshotHeader=\
 	{
 		ZLayer = 1;
 		Namespace = \"mugshot\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
+"
+
+ItemAdditionsHeader=\
+"class HUDItemAdditions : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"itemadditions\";
 	}
 
 	${DrawHUDStuff}
