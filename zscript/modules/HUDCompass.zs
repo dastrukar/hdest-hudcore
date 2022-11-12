@@ -58,6 +58,15 @@ class HUDCompass : HUDElement
 				"N",
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
 			);
+			string s=sb.hpl.wephelptext;
+			wephelpheight+=NewSmallFont.GetHeight();
+			screen.drawText(NewSmallFont,
+				font.CR_OLIVE,
+				600,
+				wephelpheight,
+				"^",
+				DTA_VirtualWidth,640,DTA_VirtualHeight,480
+			);
 		}
 	}
 }

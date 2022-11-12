@@ -90,8 +90,10 @@ RegexOfAmmoCounters='		drawammocounters'
 StartOfEncumbrance='^			\/\/encumbrance'
 EndOfEncumbrance='^			int wephelpheight'
 
-StartOfCompass='^			int wephelpheight'
-EndOfCompass='^			string s='
+StartOfCompass1='^			int wephelpheight'
+StartOfCompass2='^			wephelpheight'
+EndOfCompass1='^			string s='
+EndOfCompass2='^			\);'
 
 StartOfWeaponHelp='^			string s='
 EndOfWeaponHelp='^			\);'

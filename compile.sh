@@ -474,27 +474,43 @@ do
 		fi
 	fi
 
-	if [[ "${category}" == "common" && $(GenericChecker "compass" "${StartOfCompass}" "${i}" "${compassFlag}") == "true" ]]
+	if [[
+		"${category}" == "common"
+		&& (
+			$(GenericChecker "compass" "${StartOfCompass1}" "${i}" "${compassFlag}") == "true"
+			|| $(GenericChecker "compass" "${StartOfCompass2}" "${i}" "${compassFlag}") == "true"
+		)
+	]]
 	then
 		if [[ "${module}" == "" ]]
 		then
 			echo "Adding Module: Compass"
 			module="compass"
-			printf "${CompassHeader}" >> ${CompassFile}
-			wephelpheight="${i}"
+			if [[ "${wephelpheight}" != "" ]]
+			then
+				wephelpheight="${wephelpheight}\n${i}"
+			else
+				printf "${CompassHeader}" >> ${CompassFile}
+				wephelpheight="${i}"
+			fi
 		fi
 
-		if [[ $(SearchLine "${EndOfCompass}" "${i}") != "" ]]
+		ProcessLine "${i}\n" >> ${CompassFile}
+		if [[
+			$(SearchLine "${EndOfCompass1}" "${i}") != ""
+			|| ("${compassFlag}" != "" && $(SearchLine "${EndOfCompass2}" "${i}") != "")
+		]]
 		then
 			module=""
-			printf "		}\n" >> ${CompassFile}
-			TryCloseModule "${category}" >> ${CompassFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
+			if [[ "${compassFlag}" == "" ]]
 			then
+				compassFlag="somewhattrue"
+			elif [[ "${compassFlag}" != "" ]]
+			then
+				printf "		}\n" >> ${CompassFile}
+				TryCloseModule "${category}" >> ${CompassFile}
 				compassFlag="true"
 			fi
-		else
-			ProcessLine "${i}\n" >> ${CompassFile}
 		fi
 	fi
 
