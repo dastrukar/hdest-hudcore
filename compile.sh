@@ -522,6 +522,8 @@ do
 			module="position"
 			printf "${PositionHeader}" >> ${PositionFile}
 			printf "${wephelpheight}\n" >> ${PositionFile}
+			echo $(sed -e 's/0/%i/g' <<< $(ProcessLine "${i}\n")) >> ${PositionFile}
+			continue
 		fi
 
 		ProcessLine "${i}\n" >> ${PositionFile}

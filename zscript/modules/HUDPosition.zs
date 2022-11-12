@@ -24,7 +24,7 @@ class HUDPosition : HUDElement
 				return;
 			int wephelpheight=NewSmallFont.GetHeight()*5;
 			wephelpheight+=NewSmallFont.GetHeight();
-			string postxt=string.format("0,0,0",sb.hpl.pos.x,sb.hpl.pos.y,sb.hpl.pos.z);
+			string postxt=string.format("%i,%i,%i",sb.hpl.pos.x,sb.hpl.pos.y,sb.hpl.pos.z);
 			screen.drawText(NewSmallFont,
 				font.CR_OLIVE,
 				600-(NewSmallFont.StringWidth(postxt)>>1),
