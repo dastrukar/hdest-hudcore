@@ -145,8 +145,9 @@ do
 	if [[ $(FindInitVariables ${i}) != "" ]]
 	then
 		echo "Found init variable: ${i}"
-		line=$(sed -e 's/^		int /		/' <<< "${i}")
-		line=$(sed -e 's/^		bool /		/' <<< "${i}")
+		line="${i}"
+		line=$(sed -e 's/int //' <<< "${line}")
+		line=$(sed -e 's/bool //' <<< "${line}")
 		printf "${line}\n" >> ${InitFile}
 		continue
 	fi
