@@ -20,3 +20,4 @@ version 4.8
 #include "zscript/modules/HUDAmmoCounters.zs"
 #include "zscript/modules/HUDEncumbrance.zs"
 #include "zscript/modules/HUDCompass.zs"
+#include "zscript/modules/HUDWeaponHelp.zs"

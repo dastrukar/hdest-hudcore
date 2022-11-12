@@ -32,6 +32,7 @@ endOfCategory='^	\}'
 startOfCommonStuff='^	void DrawCommonStuff()'
 
 module=""
+wephelpheight=""
 
 # Get init stuff
 printf "${InitHeader}" >> ${InitFile}
@@ -480,6 +481,7 @@ do
 			echo "Adding Module: Compass"
 			module="compass"
 			printf "${CompassHeader}" >> ${CompassFile}
+			wephelpheight="${i}"
 		fi
 
 		if [[ $(SearchLine "${EndOfCompass}" "${i}") != "" ]]
@@ -493,6 +495,29 @@ do
 			fi
 		else
 			ProcessLine "${i}\n" >> ${CompassFile}
+		fi
+	fi
+
+	if [[ "${category}" == "common" && $(GenericChecker "weaponhelp" "${StartOfWeaponHelp}" "${i}" "${weaponhelpFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: WeaponHelp"
+			module="weaponhelp"
+			printf "${WeaponHelpHeader}" >> ${WeaponHelpFile}
+			printf "${wephelpheight}\n" >> ${WeaponHelpFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${WeaponHelpFile}
+		if [[ $(SearchLine "${EndOfWeaponHelp}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${WeaponHelpFile}
+			TryCloseModule "${category}" >> ${WeaponHelpFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				weaponhelpFlag="true"
+			fi
 		fi
 	fi
 done
