@@ -17,3 +17,4 @@ version 4.8
 #include "zscript/modules/HUDWeaponStatus.zs"
 #include "zscript/modules/HUDWeaponSprite.zs"
 #include "zscript/modules/HUDWeaponStash.zs"
+#include "zscript/modules/HUDAmmoCounters.zs"

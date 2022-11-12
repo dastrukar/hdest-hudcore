@@ -375,6 +375,17 @@ do
 		printf "		}\n" >> ${WeaponStashFile}
 		TryCloseModule "${category}" >> ${WeaponStashFile}
 	fi
+
+	# AmmoCounters
+	if [[ $(GenericChecker "ammocounters" "${RegexOfAmmoCounters}" "${i}") == "true" ]]
+	then
+		echo "Adding Module: AmmoCounters"
+		ConditionalPrintF "${category}" "${AmmoCountersHeader}" "${WeaponStashElse}" >> ${AmmoCountersFile}
+
+		ProcessLine $(ConditionalPrintF "${category}" "	${i}\n" "${i}\n") >> ${AmmoCountersFile}
+		printf "		}\n" >> ${AmmoCountersFile}
+		TryCloseModule "${category}" >> ${AmmoCountersFile}
+	fi
 done
 
 # Close the init file
