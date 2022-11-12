@@ -1,7 +1,6 @@
 #!/bin/bash
 
 statusbarPath="hideousdestructor/zscript/statusbar.zs"
-branchTag="main" # Which version do you want to use?
 
 source modules.sh
 
@@ -11,11 +10,14 @@ rm -rfv zscript/HCStatusbar_*
 rm -rfv zscript/modules/*
 
 # Make sure the submodule is up to date
-echo "Initialising hdest submodule..."
-git submodule init
-git submodule update
-git -C hideousdestructor pull origin ${branchTag}
-git -C hideousdestructor checkout ${branchTag}
+echo "Looking for HDest submodule..."
+if [[ ! -d "hideousdestructor" ]]
+then
+	echo "No HDest submodule found!"
+	echo "Please run 'git submodule update --init' to initialise the submodule."
+	echo "Then, checkout to your preferred commit/version and compile again."
+	exit
+fi
 
 # Split by lines
 IFS="
