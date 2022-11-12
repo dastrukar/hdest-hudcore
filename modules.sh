@@ -39,6 +39,7 @@ WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
 WeaponSpriteFile="zscript/modules/HUDWeaponSprite.zs"
 WeaponStashFile="zscript/modules/HUDWeaponStash.zs"
 AmmoCountersFile="zscript/modules/HUDAmmoCounters.zs"
+EncumbranceFile="zscript/modules/HUDEncumbrance.zs"
 
 # Regex
 InitVariables="
@@ -86,6 +87,9 @@ EndOfWeaponSprite='^		drawselectedweapon'
 # because these are only one line
 RegexOfWeaponStash='		drawweaponstash'
 RegexOfAmmoCounters='		drawammocounters'
+
+StartOfEncumbrance='^			\/\/encumbrance'
+EndOfEncumbrance='^			int wephelpheight'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -263,4 +267,19 @@ AmmoCountersHeader=\
 
 	${DrawHUDStuff}
 	{${CheckSpectator}${AutomapActive}
+"
+
+EncumbranceHeader=\
+"class HUDEncumbrance : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"encumbrance\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${CommonIf}
+			if (sb.HUDLevel != 2)
+				return;
 "

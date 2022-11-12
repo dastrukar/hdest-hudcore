@@ -387,6 +387,26 @@ do
 		printf "		}\n" >> ${AmmoCountersFile}
 		TryCloseModule "${category}" >> ${AmmoCountersFile}
 	fi
+
+	# Encumbrance
+	if [[ $(GenericChecker "encumbrance" "${StartOfEncumbrance}" "${i}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Encumbrance"
+			module="encumbrance"
+			printf "${EncumbranceHeader}" >> ${EncumbranceFile}
+		fi
+
+		if [[ $(SearchLine "${EndOfEncumbrance}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${EncumbranceFile}
+			TryCloseModule "${category}" >> ${EncumbranceFile}
+		else
+			ProcessLine "${i}\n" >> ${EncumbranceFile}
+		fi
+	fi
 done
 
 # Close the init file
