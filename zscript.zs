@@ -23,3 +23,4 @@ version 4.8
 #include "zscript/modules/HUDPosition.zs"
 #include "zscript/modules/HUDSpeedometer.zs"
 #include "zscript/modules/HUDMugshot.zs"
+#include "zscript/modules/HUDObjectDescription.zs"

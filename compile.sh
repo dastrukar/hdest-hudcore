@@ -586,6 +586,29 @@ do
 			fi
 		fi
 	fi
+
+	# ObjectDescription
+	if [[ "${category}" == "common" && $(GenericChecker "objectdescription" "${StartOfObjectDescription}" "${i}" "${objectdescriptionFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: ObjectDescription"
+			module="objectdescription"
+			printf "${ObjectDescriptionHeader}" >> ${ObjectDescriptionFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${ObjectDescriptionFile}
+		if [[ $(SearchLine "${EndOfObjectDescription}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${ObjectDescriptionFile}
+			TryCloseModule "${category}" >> ${ObjectDescriptionFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				objectdescriptionFlag="true"
+			fi
+		fi
+	fi
 done
 
 # Close the init file

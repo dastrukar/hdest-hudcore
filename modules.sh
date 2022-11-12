@@ -44,6 +44,7 @@ WeaponHelpFile="zscript/modules/HUDWeaponHelp.zs"
 PositionFile="zscript/modules/HUDPosition.zs"
 SpeedometerFile="zscript/modules/HUDSpeedometer.zs"
 MugshotFile="zscript/modules/HUDMugshot.zs"
+ObjectDescriptionFile="zscript/modules/HUDObjectDescription.zs"
 
 # Regex
 InitVariables="
@@ -105,6 +106,9 @@ StartOfMugshot1='^		\/\/mugshot'
 EndOfMugshot1='^		DrawTexture'
 StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot2='^		\);'
+
+StartOfObjectDescription='^		\/\/object desc'
+EndOfObjectDescription='^		\);'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -355,4 +359,17 @@ MugshotHeader=\
 
 	${DrawHUDStuff}
 	{${CheckSpectator}${AutomapActive}
+"
+
+ObjectDescriptionHeader=\
+"class HUDObjectDescription : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"objectdescription\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${CommonIf}
 "
