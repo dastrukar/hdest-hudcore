@@ -43,6 +43,7 @@ EncumbranceFile="zscript/modules/HUDEncumbrance.zs"
 CompassFile="zscript/modules/HUDCompass.zs"
 WeaponHelpFile="zscript/modules/HUDWeaponHelp.zs"
 PositionFile="zscript/modules/HUDPosition.zs"
+SpeedometerFile="zscript/modules/HUDSpeedometer.zs"
 
 # Regex
 InitVariables="
@@ -101,6 +102,9 @@ EndOfWeaponHelp='^			\);'
 
 StartOfPosition='^			string postxt'
 EndOfPosition='^			\);'
+
+StartOfSpeedometer='^		if\(hd_debug>=3\)'
+EndOfSpeedometer='^		\}'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -338,4 +342,17 @@ PositionHeader=\
 	{${CheckSpectator}${CommonIf}
 			if (sb.HUDLevel != 2)
 				return;
+"
+
+SpeedometerHeader=\
+"class HUDSpeedometer : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"speedometer\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${CommonIf}
 "

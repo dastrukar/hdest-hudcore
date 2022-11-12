@@ -559,6 +559,29 @@ do
 			fi
 		fi
 	fi
+
+	if [[ "${category}" == "common" && $(GenericChecker "speedometer" "${StartOfSpeedometer}" "${i}" "${speedometerFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Speedometer"
+			module="speedometer"
+			printf "${SpeedometerHeader}" >> ${SpeedometerFile}
+			printf "${wephelpheight}\n" >> ${SpeedometerFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${SpeedometerFile}
+		if [[ $(SearchLine "${EndOfSpeedometer}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${SpeedometerFile}
+			TryCloseModule "${category}" >> ${SpeedometerFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				positionFlag="true"
+			fi
+		fi
+	fi
 done
 
 # Close the init file
