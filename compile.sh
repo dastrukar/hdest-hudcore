@@ -14,6 +14,7 @@ rm -rfv zscript/modules/*
 echo "Initialising hdest submodule..."
 git submodule init
 git submodule update
+git -C hideousdestructor pull origin ${branchTag}
 git -C hideousdestructor checkout ${branchTag}
 
 # Split by lines
