@@ -32,7 +32,6 @@ endOfCategory='^	\}'
 startOfCommonStuff='^	void DrawCommonStuff()'
 
 module=""
-ignore="false"
 
 # Get init stuff
 printf "${InitHeader}" >> ${InitFile}
@@ -70,6 +69,7 @@ function ProcessLine() # 1: string
 	# Fix some mistakes
 	line=$(sed -E 's/sb\.hd_hudsprite/hd_hudsprite/gi' <<< "${line}")
 	line=$(sed -E 's/_sb\./_/gi' <<< "${line}")
+	line=$(sed -E 's/screen\.sb\.draw/screen.draw/gi' <<< "${line}")
 
 	# Alternative variables :]
 	line=$(sed -E 's/mxht/sb.mxht/gi' <<< "${line}")
@@ -470,6 +470,29 @@ do
 			fi
 		else
 			ProcessLine "${i}\n" >> ${EncumbranceFile}
+		fi
+	fi
+
+	if [[ "${category}" == "common" && $(GenericChecker "compass" "${StartOfCompass}" "${i}" "${compassFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Compass"
+			module="compass"
+			printf "${CompassHeader}" >> ${CompassFile}
+		fi
+
+		if [[ $(SearchLine "${EndOfCompass}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${CompassFile}
+			TryCloseModule "${category}" >> ${CompassFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				compassFlag="true"
+			fi
+		else
+			ProcessLine "${i}\n" >> ${CompassFile}
 		fi
 	fi
 done

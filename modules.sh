@@ -40,6 +40,7 @@ WeaponSpriteFile="zscript/modules/HUDWeaponSprite.zs"
 WeaponStashFile="zscript/modules/HUDWeaponStash.zs"
 AmmoCountersFile="zscript/modules/HUDAmmoCounters.zs"
 EncumbranceFile="zscript/modules/HUDEncumbrance.zs"
+CompassFile="zscript/modules/HUDCompass.zs"
 
 # Regex
 InitVariables="
@@ -87,6 +88,9 @@ RegexOfAmmoCounters='		drawammocounters'
 
 StartOfEncumbrance='^			\/\/encumbrance'
 EndOfEncumbrance='^			int wephelpheight'
+
+StartOfCompass='^			int wephelpheight'
+EndOfCompass='^			string s='
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -273,6 +277,21 @@ EncumbranceHeader=\
 	{
 		ZLayer = 0;
 		Namespace = \"encumbrance\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${CommonIf}
+			if (sb.HUDLevel != 2)
+				return;
+"
+
+CompassHeader=\
+"class HUDCompass : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"compass\";
 	}
 
 	${DrawHUDStuff}
