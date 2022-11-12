@@ -536,6 +536,29 @@ do
 			fi
 		fi
 	fi
+
+	if [[ "${category}" == "common" && $(GenericChecker "position" "${StartOfPosition}" "${i}" "${positionFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Position"
+			module="position"
+			printf "${PositionHeader}" >> ${PositionFile}
+			printf "${wephelpheight}\n" >> ${PositionFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${PositionFile}
+		if [[ $(SearchLine "${EndOfPosition}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${PositionFile}
+			TryCloseModule "${category}" >> ${PositionFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				positionFlag="true"
+			fi
+		fi
+	fi
 done
 
 # Close the init file

@@ -42,6 +42,7 @@ AmmoCountersFile="zscript/modules/HUDAmmoCounters.zs"
 EncumbranceFile="zscript/modules/HUDEncumbrance.zs"
 CompassFile="zscript/modules/HUDCompass.zs"
 WeaponHelpFile="zscript/modules/HUDWeaponHelp.zs"
+PositionFile="zscript/modules/HUDPosition.zs"
 
 # Regex
 InitVariables="
@@ -97,6 +98,9 @@ EndOfCompass2='^			\);'
 
 StartOfWeaponHelp='^			string s='
 EndOfWeaponHelp='^			\);'
+
+StartOfPosition='^			string postxt'
+EndOfPosition='^			\);'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -313,6 +317,21 @@ WeaponHelpHeader=\
 	{
 		ZLayer = 0;
 		Namespace = \"weaponhelp\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${CommonIf}
+			if (sb.HUDLevel != 2)
+				return;
+"
+
+PositionHeader=\
+"class HUDPosition : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"position\";
 	}
 
 	${DrawHUDStuff}
