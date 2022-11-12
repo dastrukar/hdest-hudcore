@@ -8,9 +8,15 @@ On it's own, HUD Core is basically just the default HUD.
 
 NOTE: Please don't copy the code of the modules, as they are poorly compiled through brute force scripting.
 
-## How to use
+## Usage
 Just load it up with HDest, and it should run.   
 Again, you have to use addons that use HUD Core for anything to change.
+
+## Compiling
+You should only do this if HUD Core doesn't work with the latest version or a specific version.
+
+Anyhow, if you wish to compile HUD Core, just run `compile.sh` and pray it works.   
+For Windows users, you might want to grab Git Bash for this. (or anything that comes with Git and Bash)
 
 ## How it works
 HUD Core looks for any `HUDElement` class and cache them for use.
