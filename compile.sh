@@ -223,6 +223,18 @@ do
 		fi
 	fi
 
+	# AutomapPos
+	if [[ "${category}" == "automap" && $(GenericChecker "automapPos" "${RegexOfAutomapPos}" "${i}" "${automapPosFlag}") == "true" ]]
+	then
+		echo "Adding Module: AutomapPos"
+		ConditionalPrintF "${category}" "${AutomapPosHeader}" "${WeaponStashElse}" >> ${AutomapPosFile}
+
+		ProcessLine "	${i}\n" >> ${AutomapPosFile}
+		printf "		}\n" >> ${AutomapPosFile}
+		printf "${GenericEnd}" >> ${AutomapPosFile}
+		automapPosFlag="true"
+	fi
+
 	# Keys
 	if [[ $(GenericChecker "keys" "${StartOfKeys}" "${i}" "${keysFlag}") == "true" ]]
 	then
@@ -361,10 +373,7 @@ do
 			module=""
 			printf "		}\n" >> ${WeaponStatusFile}
 			TryCloseModule "${category}" >> ${WeaponStatusFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				weaponStatusFlag="true"
-			fi
+			weaponStatusFlag="true"
 		fi
 	fi
 
@@ -439,10 +448,7 @@ do
 			module=""
 			printf "		}\n" >> ${EncumbranceFile}
 			TryCloseModule "${category}" >> ${EncumbranceFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				encumbranceFlag="true"
-			fi
+			encumbranceFlag="true"
 		else
 			ProcessLine "${i}\n" >> ${EncumbranceFile}
 		fi
@@ -506,10 +512,7 @@ do
 			module=""
 			printf "		}\n" >> ${WeaponHelpFile}
 			TryCloseModule "${category}" >> ${WeaponHelpFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				weaponhelpFlag="true"
-			fi
+			weaponhelpFlag="true"
 		fi
 	fi
 
@@ -532,10 +535,7 @@ do
 			module=""
 			printf "		}\n" >> ${PositionFile}
 			TryCloseModule "${category}" >> ${PositionFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				positionFlag="true"
-			fi
+			positionFlag="true"
 		fi
 	fi
 
@@ -556,10 +556,7 @@ do
 			module=""
 			printf "		}\n" >> ${SpeedometerFile}
 			TryCloseModule "${category}" >> ${SpeedometerFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				speedometerFlag="true"
-			fi
+			speedometerFlag="true"
 		fi
 	fi
 
@@ -605,10 +602,7 @@ do
 			module=""
 			printf "		}\n" >> ${ObjectDescriptionFile}
 			TryCloseModule "${category}" >> ${ObjectDescriptionFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				objectdescriptionFlag="true"
-			fi
+			objectdescriptionFlag="true"
 		fi
 	fi
 done

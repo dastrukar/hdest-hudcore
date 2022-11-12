@@ -29,6 +29,7 @@ CommonElse=\
 InitFile="zscript/HCStatusbar_InitVariables.zs"
 DrawFile="zscript/HCStatusbar_SuperDraw.zs"
 FragsFile="zscript/modules/HUDFrags.zs"
+AutomapPosFile="zscript/modules/HUDAutomapPos.zs"
 KeysFile="zscript/modules/HUDKeys.zs"
 InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
@@ -57,6 +58,8 @@ EndOfDraw='^	\}'
 
 StartOfFrags='^		\/\/frags'
 EndOfFrags='^		\);'
+
+RegexOfAutomapPos='^		drawmypos'
 
 StartOfInventory='^		\/\/inventory'
 EndOfInventory='^		DrawInvSel'
@@ -149,6 +152,19 @@ FragsHeader=\
 
 	${DrawHUDStuff}
 	{${AutomapActive}
+"
+
+AutomapPosHeader=\
+"class HUDAutomapPos : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"automappos\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
 "
 
 InventoryHeader=\
