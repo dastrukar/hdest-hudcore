@@ -18,6 +18,7 @@ then
 	echo "Then, checkout to your preferred commit/version and compile again."
 	exit
 fi
+echo "Found HDest submodule..."
 
 # Split by lines
 IFS="
@@ -362,6 +363,17 @@ do
 			printf "		}\n" >> ${WeaponSpriteFile}
 			TryCloseModule "${category}" >> ${WeaponSpriteFile}
 		fi
+	fi
+
+	# WeaponStash
+	if [[ $(GenericChecker "weaponstash" "${RegexOfWeaponStash}" "${i}") == "true" ]]
+	then
+		echo "Adding Module: WeaponStash"
+		ConditionalPrintF "${category}" "${WeaponStashHeader}" "${WeaponStashElse}" >> ${WeaponStashFile}
+
+		ProcessLine $(ConditionalPrintF "${category}" "	${i}\n" "${i}\n") >> ${WeaponStashFile}
+		printf "		}\n" >> ${WeaponStashFile}
+		TryCloseModule "${category}" >> ${WeaponStashFile}
 	fi
 done
 

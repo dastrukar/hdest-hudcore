@@ -37,6 +37,7 @@ MugshotFile="zscript/modules/HUDMugshot.zs"
 ItemAdditionsFile="zscript/modules/HUDItemAdditions.zs"
 WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
 WeaponSpriteFile="zscript/modules/HUDWeaponSprite.zs"
+WeaponStashFile="zscript/modules/HUDWeaponStash.zs"
 
 # Regex
 InitVariables="
@@ -80,6 +81,8 @@ EndOfWeaponStatus='drawweaponstatus'
 StartOfWeaponSprite1='^		\/\/gun'
 StartOfWeaponSprite2='^		\/\/weapon sprite'
 EndOfWeaponSprite='^		drawselectedweapon'
+
+RegexOfWeaponStash='		drawweaponstash' # because this is only one line
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -225,4 +228,23 @@ WeaponSpriteHeader=\
 
 	${DrawHUDStuff}
 	{${CheckSpectator}${AutomapActive}
+"
+
+WeaponStashHeader=\
+"class HUDWeaponStash : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"weaponstash\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
+"
+WeaponStashElse=\
+"		else if ${CommonCondition}
+		{
+			if (sb.HUDLevel != 2)
+				return;
 "
