@@ -48,9 +48,6 @@ InitVariables="
 "
 
 StartOfDraw='^		\/\/blacking out'
-StartOfDrawIgnore='^		if\(automapactive\)'
-
-EndOfDrawIgnore='^		}$'
 EndOfDraw='^	\}'
 
 StartOfFrags='^		\/\/frags'

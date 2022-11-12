@@ -109,9 +109,9 @@ function ConditionalPrintF() # 1: category   2: automapString   3: commonString
 	fi
 }
 
-function GenericChecker() # 1: module   2: searchLine   3: string
+function GenericChecker() # 1: module   2: regex   3: string   4: flag
 {
-	if [[ "${module}" == "${1}" || $(SearchLine "${2}" "${3}") != "" ]]
+	if [[ "${4}" != "true" && ("${module}" == "${1}" || ("${module}" == "" && $(SearchLine "${2}" "${3}") != "")) ]]
 	then
 		printf "true"
 	fi
@@ -119,11 +119,24 @@ function GenericChecker() # 1: module   2: searchLine   3: string
 
 for i in $(cat "${statusbarPath}")
 do
+	# End of statusbar
+	if [[ "${category}" == "common" && "${i}" == "	}" ]]
+	then
+		break
+	fi
+
+	# End of category
+	if [[ "${category}" != "" && "${i}" == "	}" ]]
+	then
+		echo "=End of category="
+		category=""
+	fi
+
 	##
 	## Categories
 	##
 	# Automap category
-	if [[ $(SearchLine "${startOfAutomapStuff}" "${i}") != "" ]]
+	if [[ "${category}" == "" && $(SearchLine "${startOfAutomapStuff}" "${i}") != "" ]]
 	then
 		echo "Category: Automap"
 		category="automap"
@@ -131,7 +144,7 @@ do
 	fi
 
 	# Common category
-	if [[ $(SearchLine "${startOfCommonStuff}" "${i}") != "" ]]
+	if [[ "${category}" == "" && $(SearchLine "${startOfCommonStuff}" "${i}") != "" ]]
 	then
 		echo "Category: Common"
 		category="common"
@@ -153,7 +166,7 @@ do
 	fi
 
 	# Draw functions
-	if [[ $(GenericChecker "draw" "${StartOfDraw}" "${i}") == "true" ]]
+	if [[ "${category}" == "" && $(GenericChecker "draw" "${StartOfDraw}" "${i}" "${drawFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -167,6 +180,7 @@ do
 		then
 			module=""
 			printf "${GenericEnd}" >> ${DrawFile}
+			drawFlag="true"
 			continue
 		fi
 
@@ -176,11 +190,17 @@ do
 		printf "${line}\n" >> ${DrawFile}
 	fi
 
+	# Skip
+	if [[ "${category}" == "" ]]
+	then
+		continue
+	fi
+
 	##
 	## Modules
 	##
 	# Frags
-	if [[ $(GenericChecker "frags" "${StartOfFrags}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "frags" "${StartOfFrags}" "${i}" "${fragsFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -195,11 +215,15 @@ do
 			module=""
 			printf "		}\n" >> ${FragsFile}
 			TryCloseModule "${category}" >> ${FragsFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				fragsFlag="true"
+			fi
 		fi
 	fi
 
 	# Keys
-	if [[ $(GenericChecker "keys" "${StartOfKeys}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "keys" "${StartOfKeys}" "${i}" "${keysFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -213,6 +237,7 @@ do
 			module=""
 			printf "		}\n" >> ${KeysFile}
 			TryCloseModule "${category}" >> ${KeysFile}
+			keysFlag="true"
 		else
 			ProcessLine "	${i}\n" >> ${KeysFile}
 		fi
@@ -225,7 +250,7 @@ do
 	fi
 
 	# Inventory
-	if [[ $(GenericChecker "inventory" "${StartOfInventory}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "inventory" "${StartOfInventory}" "${i}" "${inventoryFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -240,11 +265,15 @@ do
 			module=""
 			printf "		}\n" >> ${InventoryFile}
 			TryCloseModule "${category}" >> ${InventoryFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				inventoryFlag="true"
+			fi
 		fi
 	fi
 
 	# Heartbeat Monitor
-	if [[ $(GenericChecker "heartbeat" "${StartOfHeartbeat}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "heartbeat" "${StartOfHeartbeat}" "${i}" "${heartbeatFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -259,11 +288,15 @@ do
 			module=""
 			printf "		}\n" >> ${HeartbeatFile}
 			TryCloseModule "${category}" >> ${HeartbeatFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				heartbeatFlag="true"
+			fi
 		fi
 	fi
 
 	# EKG
-	if [[ $(GenericChecker "ekg" "${StartOfEKG}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "ekg" "${StartOfEKG}" "${i}" "${ekgFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -278,13 +311,17 @@ do
 			module=""
 			printf "		}\n" >> ${EKGFile}
 			TryCloseModule "${category}" >> ${EKGFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				ekgFlag="true"
+			fi
 		fi
 	fi
 
 	# Mugshot
 	if [[
-		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}") == "true"
-		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}") == "true"
+		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}" "${mugshotFlag}") == "true"
+		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}" "${mugshotFlag}") == "true"
 	]]
 	then
 		if [[ "${module}" == "" ]]
@@ -300,11 +337,15 @@ do
 			module=""
 			printf "		}\n" >> ${MugshotFile}
 			TryCloseModule "${category}" >> ${MugshotFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				mugshotFlag="true"
+			fi
 		fi
 	fi
 
 	# ItemAdditions
-	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}" "${itemAdditionsFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -322,11 +363,15 @@ do
 			module=""
 			printf "		}\n" >> ${ItemAdditionsFile}
 			TryCloseModule "${category}" >> ${ItemAdditionsFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				itemAdditionsFlag="true"
+			fi
 		fi
 	fi
 
 	# WeaponStatus
-	if [[ $(GenericChecker "weaponstatus" "${StartOfWeaponStatus}" "${i}") == "true" ]]
+	if [[ "${category}" == "common" && $(GenericChecker "weaponstatus" "${StartOfWeaponStatus}" "${i}" "${weaponStatusFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -341,13 +386,17 @@ do
 			module=""
 			printf "		}\n" >> ${WeaponStatusFile}
 			TryCloseModule "${category}" >> ${WeaponStatusFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				weaponStatusFlag="true"
+			fi
 		fi
 	fi
 
 	# WeaponSprite
 	if [[
-		$(GenericChecker "weaponsprite" "${StartOfWeaponSprite1}" "${i}") == "true"
-		|| $(GenericChecker "weaponsprite" "${StartOfWeaponSprite2}" "${i}") == "true"
+		$(GenericChecker "weaponsprite" "${StartOfWeaponSprite1}" "${i}" "${weaponSpriteFlag}") == "true"
+		|| $(GenericChecker "weaponsprite" "${StartOfWeaponSprite2}" "${i}" "${weaponSpriteFlag}") == "true"
 	]]
 	then
 		if [[ "${module}" == "" ]]
@@ -363,11 +412,15 @@ do
 			module=""
 			printf "		}\n" >> ${WeaponSpriteFile}
 			TryCloseModule "${category}" >> ${WeaponSpriteFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				weaponSpriteFlag="true"
+			fi
 		fi
 	fi
 
 	# WeaponStash
-	if [[ $(GenericChecker "weaponstash" "${RegexOfWeaponStash}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "weaponstash" "${RegexOfWeaponStash}" "${i}" "${weaponStashFlag}") == "true" ]]
 	then
 		echo "Adding Module: WeaponStash"
 		ConditionalPrintF "${category}" "${WeaponStashHeader}" "${WeaponStashElse}" >> ${WeaponStashFile}
@@ -375,10 +428,14 @@ do
 		ProcessLine $(ConditionalPrintF "${category}" "	${i}\n" "${i}\n") >> ${WeaponStashFile}
 		printf "		}\n" >> ${WeaponStashFile}
 		TryCloseModule "${category}" >> ${WeaponStashFile}
+		if [[ $(TryCloseModule "${category}") != "" ]]
+		then
+			weaponStashFlag="true"
+		fi
 	fi
 
 	# AmmoCounters
-	if [[ $(GenericChecker "ammocounters" "${RegexOfAmmoCounters}" "${i}") == "true" ]]
+	if [[ $(GenericChecker "ammocounters" "${RegexOfAmmoCounters}" "${i}" "${ammoCountersFlag}") == "true" ]]
 	then
 		echo "Adding Module: AmmoCounters"
 		ConditionalPrintF "${category}" "${AmmoCountersHeader}" "${WeaponStashElse}" >> ${AmmoCountersFile}
@@ -386,10 +443,14 @@ do
 		ProcessLine $(ConditionalPrintF "${category}" "	${i}\n" "${i}\n") >> ${AmmoCountersFile}
 		printf "		}\n" >> ${AmmoCountersFile}
 		TryCloseModule "${category}" >> ${AmmoCountersFile}
+		if [[ $(TryCloseModule "${category}") != "" ]]
+		then
+			ammoCountersFlag="true"
+		fi
 	fi
 
 	# Encumbrance
-	if [[ $(GenericChecker "encumbrance" "${StartOfEncumbrance}" "${i}") == "true" ]]
+	if [[ "${category}" == "common" && $(GenericChecker "encumbrance" "${StartOfEncumbrance}" "${i}" "${encumbranceFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -403,6 +464,10 @@ do
 			module=""
 			printf "		}\n" >> ${EncumbranceFile}
 			TryCloseModule "${category}" >> ${EncumbranceFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				encumbranceFlag="true"
+			fi
 		else
 			ProcessLine "${i}\n" >> ${EncumbranceFile}
 		fi
