@@ -33,7 +33,6 @@ KeysFile="zscript/modules/HUDKeys.zs"
 InventoryFile="zscript/modules/HUDInventory.zs"
 HeartbeatFile="zscript/modules/HUDHeartbeat.zs"
 EKGFile="zscript/modules/HUDEKG.zs"
-MugshotFile="zscript/modules/HUDMugshot.zs"
 ItemAdditionsFile="zscript/modules/HUDItemAdditions.zs"
 WeaponStatusFile="zscript/modules/HUDWeaponStatus.zs"
 WeaponSpriteFile="zscript/modules/HUDWeaponSprite.zs"
@@ -44,6 +43,7 @@ CompassFile="zscript/modules/HUDCompass.zs"
 WeaponHelpFile="zscript/modules/HUDWeaponHelp.zs"
 PositionFile="zscript/modules/HUDPosition.zs"
 SpeedometerFile="zscript/modules/HUDSpeedometer.zs"
+MugshotFile="zscript/modules/HUDMugshot.zs"
 
 # Regex
 InitVariables="
@@ -68,11 +68,6 @@ EndOfHeartbeat='^		\}'
 
 StartOfEKG='^		\/\/health'
 EndOfEKG='^		\);else'
-
-StartOfMugshot1='^		\/\/mugshot'
-EndOfMugshot1='^		DrawTexture'
-StartOfMugshot2='^		if\(usemughud\)'
-EndOfMugshot2='^		\);'
 
 StartOfItemAdditions='^		\/\/items'
 EndOfItemAdditions1='^		DrawItemHUDAdditions'
@@ -105,6 +100,11 @@ EndOfPosition='^			\);'
 
 StartOfSpeedometer='^		if\(hd_debug>=3\)'
 EndOfSpeedometer='^		\}'
+
+StartOfMugshot1='^		\/\/mugshot'
+EndOfMugshot1='^		DrawTexture'
+StartOfMugshot2='^		if\(usemughud\)'
+EndOfMugshot2='^		\);'
 
 # Headers
 Init="override void Init(HCStatusbar sb)"
@@ -193,19 +193,6 @@ EKGHeader=\
 	{
 		ZLayer = 0;
 		Namespace = \"ekg\";
-	}
-
-	${DrawHUDStuff}
-	{${CheckSpectator}${AutomapActive}
-"
-
-MugshotHeader=\
-"class HUDMugshot : HUDElement
-{
-	${Init}
-	{
-		ZLayer = 1;
-		Namespace = \"mugshot\";
 	}
 
 	${DrawHUDStuff}
@@ -355,4 +342,17 @@ SpeedometerHeader=\
 
 	${DrawHUDStuff}
 	{${CheckSpectator}${CommonIf}
+"
+
+MugshotHeader=\
+"class HUDMugshot : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 1;
+		Namespace = \"mugshot\";
+	}
+
+	${DrawHUDStuff}
+	{${CheckSpectator}${AutomapActive}
 "

@@ -12,7 +12,6 @@ version 4.8
 #include "zscript/modules/HUDKeys.zs"
 #include "zscript/modules/HUDEKG.zs"
 #include "zscript/modules/HUDHeartbeat.zs"
-#include "zscript/modules/HUDMugshot.zs"
 #include "zscript/modules/HUDItemAdditions.zs"
 #include "zscript/modules/HUDWeaponStatus.zs"
 #include "zscript/modules/HUDWeaponSprite.zs"
@@ -23,3 +22,4 @@ version 4.8
 #include "zscript/modules/HUDWeaponHelp.zs"
 #include "zscript/modules/HUDPosition.zs"
 #include "zscript/modules/HUDSpeedometer.zs"
+#include "zscript/modules/HUDMugshot.zs"

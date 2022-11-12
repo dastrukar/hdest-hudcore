@@ -319,32 +319,6 @@ do
 		fi
 	fi
 
-	# Mugshot
-	if [[
-		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}" "${mugshotFlag}") == "true"
-		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}" "${mugshotFlag}") == "true"
-	]]
-	then
-		if [[ "${module}" == "" ]]
-		then
-			echo "Adding Module: Mugshot"
-			module="mugshot"
-			ConditionalPrintF "${category}" "${MugshotHeader}" "${CommonElse}" >> ${MugshotFile}
-		fi
-
-		ProcessLine "	${i}\n" >> ${MugshotFile}
-		if [[ $(SearchLine "${EndOfMugshot1}" "${i}") != "" || $(SearchLine "${EndOfMugshot2}" "${i}") != "" ]]
-		then
-			module=""
-			printf "		}\n" >> ${MugshotFile}
-			TryCloseModule "${category}" >> ${MugshotFile}
-			if [[ $(TryCloseModule "${category}") != "" ]]
-			then
-				mugshotFlag="true"
-			fi
-		fi
-	fi
-
 	# ItemAdditions
 	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}" "${itemAdditionsFlag}") == "true" ]]
 	then
@@ -474,6 +448,7 @@ do
 		fi
 	fi
 
+	# Compass
 	if [[
 		"${category}" == "common"
 		&& (
@@ -514,6 +489,7 @@ do
 		fi
 	fi
 
+	# WeaponHelp
 	if [[ "${category}" == "common" && $(GenericChecker "weaponhelp" "${StartOfWeaponHelp}" "${i}" "${weaponhelpFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
@@ -537,6 +513,7 @@ do
 		fi
 	fi
 
+	# Position
 	if [[ "${category}" == "common" && $(GenericChecker "position" "${StartOfPosition}" "${i}" "${positionFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
@@ -560,6 +537,7 @@ do
 		fi
 	fi
 
+	# Speedometer
 	if [[ "${category}" == "common" && $(GenericChecker "speedometer" "${StartOfSpeedometer}" "${i}" "${speedometerFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
@@ -578,7 +556,33 @@ do
 			TryCloseModule "${category}" >> ${SpeedometerFile}
 			if [[ $(TryCloseModule "${category}") != "" ]]
 			then
-				positionFlag="true"
+				speedometerFlag="true"
+			fi
+		fi
+	fi
+
+	# Mugshot
+	if [[
+		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}" "${mugshotFlag}") == "true"
+		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}" "${mugshotFlag}") == "true"
+	]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Mugshot"
+			module="mugshot"
+			ConditionalPrintF "${category}" "${MugshotHeader}" "${CommonElse}" >> ${MugshotFile}
+		fi
+
+		ProcessLine "	${i}\n" >> ${MugshotFile}
+		if [[ $(SearchLine "${EndOfMugshot1}" "${i}") != "" || $(SearchLine "${EndOfMugshot2}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		}\n" >> ${MugshotFile}
+			TryCloseModule "${category}" >> ${MugshotFile}
+			if [[ $(TryCloseModule "${category}") != "" ]]
+			then
+				mugshotFlag="true"
 			fi
 		fi
 	fi
