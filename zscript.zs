@@ -7,6 +7,7 @@ version 4.8
 #include "zscript/HCStatusbar_SuperDraw.zs"
 
 // Modules
+#include "zscript/modules/HUDSetWeaponDefault.zs"
 #include "zscript/modules/HUDFrags.zs"
 #include "zscript/modules/HUDAutomapPos.zs"
 #include "zscript/modules/HUDInventory.zs"

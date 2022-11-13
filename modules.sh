@@ -7,6 +7,20 @@ GenericEnd=\
 }
 "
 
+# Always stuff
+AlwaysCondition="(
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
+			&& !(
+				sb.hpl.Health > 0
+				&& (sb.hpl.bInvisible || sb.hpl.alpha <= 0)
+			)
+		)"
+AlwaysIf="if ${AlwaysCondition}
+			return;
+
+"
+
 # Common stuff
 CommonCondition="(
 			!AutomapActive
@@ -25,9 +39,18 @@ CommonElse=\
 		{
 "
 
-# Files
+
+##
+## Files
+##
+# Core
 InitFile="zscript/HCStatusbar_InitVariables.zs"
 DrawFile="zscript/HCStatusbar_SuperDraw.zs"
+
+# Always stuff
+SetWeaponDefaultFile="zscript/modules/HUDSetWeaponDefault.zs"
+
+# Stuff
 FragsFile="zscript/modules/HUDFrags.zs"
 AutomapPosFile="zscript/modules/HUDAutomapPos.zs"
 KeysFile="zscript/modules/HUDKeys.zs"
@@ -47,7 +70,11 @@ SpeedometerFile="zscript/modules/HUDSpeedometer.zs"
 MugshotFile="zscript/modules/HUDMugshot.zs"
 ObjectDescriptionFile="zscript/modules/HUDObjectDescription.zs"
 
-# Regex
+
+##
+## Regex
+##
+# Core
 InitVariables="
 ^		int mxht
 ^		int mhht
@@ -56,6 +83,11 @@ InitVariables="
 StartOfDraw='^		\/\/blacking out'
 EndOfDraw='^	\}'
 
+# Always stuff
+StartOfSetWeaponDefault='^		\/\/reads hd_setweapondefault'
+EndOfSetWeaponDefault='^		if\(lomt\)'
+
+# Stuff
 StartOfFrags='^		\/\/frags'
 EndOfFrags='^		\);'
 
@@ -84,7 +116,6 @@ StartOfWeaponSprite1='^		\/\/gun'
 StartOfWeaponSprite2='^		\/\/weapon sprite'
 EndOfWeaponSprite='^		drawselectedweapon'
 
-# because these are only one line
 RegexOfWeaponStash='		drawweaponstash'
 RegexOfAmmoCounters='		drawammocounters'
 
@@ -113,7 +144,10 @@ EndOfMugshot2='^		\);'
 StartOfObjectDescription='^		\/\/object desc'
 EndOfObjectDescription='^		\);'
 
-# Headers
+
+##
+## Headers
+##
 Init="override void Init(HCStatusbar sb)"
 DrawHUDStuff="override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)"
 CheckSpectator=\
@@ -139,6 +173,22 @@ DrawHeader=\
 {
 	private void SuperDraw(int state, double ticFrac)
 	{
+"
+
+SetWeaponDefaultHeader=\
+"// Why is this part of the statusbar?
+// Oh well.
+class HUDSetWeaponDefault : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"setweapondefault\";
+	}
+
+	${DrawHUDStuff}
+	{
+		${AlwaysIf}
 "
 
 FragsHeader=\

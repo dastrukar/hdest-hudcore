@@ -27,9 +27,10 @@ IFS="
 
 # Categories
 category=""
-startOfAutomapStuff='^	void DrawAutomapStuff()'
+startOfAutomapStuff='^	void DrawAutomapStuff'
 endOfCategory='^	\}'
-startOfCommonStuff='^	void DrawCommonStuff()'
+startOfAlwaysStuff='^	void DrawAlwaysStuff'
+startOfCommonStuff='^	void DrawCommonStuff'
 
 module=""
 wephelpheight=""
@@ -144,6 +145,14 @@ do
 		continue
 	fi
 
+	# Always category
+	if [[ "${category}" == "" && $(SearchLine "${startOfAlwaysStuff}" "${i}") != "" ]]
+	then
+		echo "Category: Always"
+		category="always"
+		continue
+	fi
+
 	# Common category
 	if [[ "${category}" == "" && $(SearchLine "${startOfCommonStuff}" "${i}") != "" ]]
 	then
@@ -200,8 +209,27 @@ do
 	##
 	## Modules
 	##
+	# SetWeaponDefault (why is this here)
+	if [[ "${category}" == "always" && $(GenericChecker "setWeaponDefault" "${StartOfSetWeaponDefault}" "${i}" "${setWeaponDefaultFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: SetWeaponDefault"
+			module="setWeaponDefault"
+			printf "${SetWeaponDefaultHeader}" >> ${SetWeaponDefaultFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${SetWeaponDefaultFile}
+		if [[ $(SearchLine "${EndOfSetWeaponDefault}" "${i}") != "" ]]
+		then
+			module=""
+			printf "${GenericEnd}" >> ${SetWeaponDefaultFile}
+			setWeaponDefaultFlag="true"
+		fi
+	fi
+
 	# Frags
-	if [[ $(GenericChecker "frags" "${StartOfFrags}" "${i}" "${fragsFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "frags" "${StartOfFrags}" "${i}" "${fragsFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -236,7 +264,7 @@ do
 	fi
 
 	# Keys
-	if [[ $(GenericChecker "keys" "${StartOfKeys}" "${i}" "${keysFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "keys" "${StartOfKeys}" "${i}" "${keysFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -263,7 +291,7 @@ do
 	fi
 
 	# Inventory
-	if [[ $(GenericChecker "inventory" "${StartOfInventory}" "${i}" "${inventoryFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "inventory" "${StartOfInventory}" "${i}" "${inventoryFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -286,7 +314,7 @@ do
 	fi
 
 	# Heartbeat Monitor
-	if [[ $(GenericChecker "heartbeat" "${StartOfHeartbeat}" "${i}" "${heartbeatFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "heartbeat" "${StartOfHeartbeat}" "${i}" "${heartbeatFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -309,7 +337,7 @@ do
 	fi
 
 	# EKG
-	if [[ $(GenericChecker "ekg" "${StartOfEKG}" "${i}" "${ekgFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "ekg" "${StartOfEKG}" "${i}" "${ekgFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -332,7 +360,7 @@ do
 	fi
 
 	# ItemAdditions
-	if [[ $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}" "${itemAdditionsFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "itemadditions" "${StartOfItemAdditions}" "${i}" "${itemAdditionsFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
 		then
@@ -379,8 +407,11 @@ do
 
 	# WeaponSprite
 	if [[
-		$(GenericChecker "weaponsprite" "${StartOfWeaponSprite1}" "${i}" "${weaponSpriteFlag}") == "true"
-		|| $(GenericChecker "weaponsprite" "${StartOfWeaponSprite2}" "${i}" "${weaponSpriteFlag}") == "true"
+		"${category}" != "always"
+		&& (
+			$(GenericChecker "weaponsprite" "${StartOfWeaponSprite1}" "${i}" "${weaponSpriteFlag}") == "true"
+			|| $(GenericChecker "weaponsprite" "${StartOfWeaponSprite2}" "${i}" "${weaponSpriteFlag}") == "true"
+		)
 	]]
 	then
 		if [[ "${module}" == "" ]]
@@ -404,7 +435,7 @@ do
 	fi
 
 	# WeaponStash
-	if [[ $(GenericChecker "weaponstash" "${RegexOfWeaponStash}" "${i}" "${weaponStashFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "weaponstash" "${RegexOfWeaponStash}" "${i}" "${weaponStashFlag}") == "true" ]]
 	then
 		echo "Adding Module: WeaponStash"
 		ConditionalPrintF "${category}" "${WeaponStashHeader}" "${WeaponStashElse}" >> ${WeaponStashFile}
@@ -419,7 +450,7 @@ do
 	fi
 
 	# AmmoCounters
-	if [[ $(GenericChecker "ammocounters" "${RegexOfAmmoCounters}" "${i}" "${ammoCountersFlag}") == "true" ]]
+	if [[ "${category}" != "always" && $(GenericChecker "ammocounters" "${RegexOfAmmoCounters}" "${i}" "${ammoCountersFlag}") == "true" ]]
 	then
 		echo "Adding Module: AmmoCounters"
 		ConditionalPrintF "${category}" "${AmmoCountersHeader}" "${WeaponStashElse}" >> ${AmmoCountersFile}
@@ -562,8 +593,11 @@ do
 
 	# Mugshot
 	if [[
-		$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}" "${mugshotFlag}") == "true"
-		|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}" "${mugshotFlag}") == "true"
+		"${category}" != "always"
+		&& (
+			$(GenericChecker "mugshot" "${StartOfMugshot1}" "${i}" "${mugshotFlag}") == "true"
+			|| $(GenericChecker "mugshot" "${StartOfMugshot2}" "${i}" "${mugshotFlag}") == "true"
+		)
 	]]
 	then
 		if [[ "${module}" == "" ]]
