@@ -125,7 +125,8 @@ class HCStatusbar : HDStatusbar
 		// Tick elements
 		for (int i = 0; i < _HUDElements.Size(); i++)
 		{
-			_HUDElements[i].Tick(self);
+			if (_HUDElements[i])
+				_HUDElements[i].Tick(self);
 		}
 	}
 
@@ -158,7 +159,8 @@ class HCStatusbar : HDStatusbar
 		// Draw elements
 		for (int i = 0; i < _HUDElements.Size(); i++)
 		{
-			_HUDElements[i].DrawHUDStuff(self, state, ticFrac);
+			if (_HUDElements[i])
+				_HUDElements[i].DrawHUDStuff(self, state, ticFrac);
 		}
 
 		// basically Super.Draw() but a bit trimmed
