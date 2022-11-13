@@ -9,9 +9,9 @@ GenericEnd=\
 
 # Always stuff
 AlwaysCondition="(
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& !(
+			AutomapActive
+			|| sb.CPlayer.mo != sb.CPlayer.Camera
+			|| (
 				sb.hpl.Health > 0
 				&& (sb.hpl.bInvisible || sb.hpl.alpha <= 0)
 			)
