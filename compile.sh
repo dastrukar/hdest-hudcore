@@ -67,7 +67,10 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/GetMug/sb.GetMug/gi' <<< "${line}")
 	line=$(sed -E 's/usemughud/sb.usemughud/gi' <<< "${line}")
 	line=$(sed -E 's/mHUDFont/sb.mHUDFont/gi' <<< "${line}")
+	line=$(sed -E 's/pSmallFont/sb.pSmallFont/gi' <<< "${line}")
 	line=$(sed -E 's/hudlevel/sb.hudlevel/gi' <<< "${line}")
+	line=$(sed -E 's/SetSize/sb.SetSize/gi' <<< "${line}")
+	line=$(sed -E 's/BeginHUD/sb.BeginHUD/gi' <<< "${line}")
 
 	# Fix some mistakes
 	line=$(sed -E 's/sb\.hd_hudsprite/hd_hudsprite/gi' <<< "${line}")
@@ -250,7 +253,7 @@ do
 		fi
 	fi
 
-	# Crosshair
+	# ItemOverlays
 	if [[ "${category}" == "always" && $(GenericChecker "itemOverlays" "${StartOfItemOverlays}" "${i}" "${itemOverlaysFlag}") == "true" ]]
 	then
 		if [[ "${module}" == "" ]]
@@ -268,6 +271,27 @@ do
 			printf "		sb.BeginHUD(forceScaled: false);\n" >> ${ItemOverlaysFile}
 			printf "${GenericEnd}" >> ${ItemOverlaysFile}
 			itemOverlaysFlag="true"
+		fi
+	fi
+
+	# WeaponText
+	if [[ "${category}" == "always" && $(GenericChecker "weaponText" "${StartOfWeaponText}" "${i}" "${weaponTextFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: WeaponText"
+			module="weaponText"
+			printf "${WeaponTextHeader}" >> ${WeaponTextFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${WeaponTextFile}
+		if [[ $(SearchLine "${EndOfWeaponText}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		sb.SetSize(0, 320, 200);\n" >> ${WeaponTextFile}
+			printf "		sb.BeginHUD(forceScaled: false);\n" >> ${WeaponTextFile}
+			printf "${GenericEnd}" >> ${WeaponTextFile}
+			weaponTextFlag="true"
 		fi
 	fi
 

@@ -51,6 +51,7 @@ DrawFile="zscript/HCStatusbar_SuperDraw.zs"
 SetWeaponDefaultFile="zscript/modules/HUDSetWeaponDefault.zs"
 CrosshairFile="zscript/modules/HUDCrosshair.zs"
 ItemOverlaysFile="zscript/modules/HUDItemOverlays.zs"
+WeaponTextFile="zscript/modules/HUDWeaponText.zs"
 
 # Stuff
 FragsFile="zscript/modules/HUDFrags.zs"
@@ -94,6 +95,9 @@ EndOfCrosshair='^		\)Draw'
 
 StartOfItemOverlays='^		\/\/draw item overlays'
 EndOfItemOverlays='^		\}'
+
+StartOfWeaponText='^		\/\/draw information text'
+EndOfWeaponText='^		\);'
 
 # Stuff
 StartOfFrags='^		\/\/frags'
@@ -220,6 +224,20 @@ ItemOverlaysHeader=\
 	{
 		ZLayer = 0;
 		Namespace = \"itemoverlays\";
+	}
+
+	${DrawHUDStuff}
+	{
+		${AlwaysIf}
+"
+
+WeaponTextHeader=\
+"class HUDWeaponText : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"weapontext\";
 	}
 
 	${DrawHUDStuff}

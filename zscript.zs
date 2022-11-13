@@ -10,6 +10,7 @@ version 4.8
 #include "zscript/modules/HUDSetWeaponDefault.zs"
 #include "zscript/modules/HUDCrosshair.zs"
 #include "zscript/modules/HUDItemOverlays.zs"
+#include "zscript/modules/HUDWeaponText.zs"
 #include "zscript/modules/HUDFrags.zs"
 #include "zscript/modules/HUDAutomapPos.zs"
 #include "zscript/modules/HUDInventory.zs"
