@@ -49,6 +49,7 @@ DrawFile="zscript/HCStatusbar_SuperDraw.zs"
 
 # Always stuff
 SetWeaponDefaultFile="zscript/modules/HUDSetWeaponDefault.zs"
+CrosshairFile="zscript/modules/HUDCrosshair.zs"
 
 # Stuff
 FragsFile="zscript/modules/HUDFrags.zs"
@@ -86,6 +87,9 @@ EndOfDraw='^	\}'
 # Always stuff
 StartOfSetWeaponDefault='^		\/\/reads hd_setweapondefault'
 EndOfSetWeaponDefault='^		if\(lomt\)'
+
+StartOfCrosshair='^		\/\/draw the crosshair'
+EndOfCrosshair='^		\)Draw'
 
 # Stuff
 StartOfFrags='^		\/\/frags'
@@ -184,6 +188,20 @@ class HUDSetWeaponDefault : HUDElement
 	{
 		ZLayer = 0;
 		Namespace = \"setweapondefault\";
+	}
+
+	${DrawHUDStuff}
+	{
+		${AlwaysIf}
+"
+
+CrosshairHeader=\
+"class HUDCrosshair : HUDElement
+{
+	${Init}
+	{
+		ZLayer = 0;
+		Namespace = \"crosshair\";
 	}
 
 	${DrawHUDStuff}

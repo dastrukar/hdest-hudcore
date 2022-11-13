@@ -228,6 +228,25 @@ do
 		fi
 	fi
 
+	# Crosshair
+	if [[ "${category}" == "always" && $(GenericChecker "crosshair" "${StartOfCrosshair}" "${i}" "${crosshairFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: Crosshair"
+			module="crosshair"
+			printf "${CrosshairHeader}" >> ${CrosshairFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${CrosshairFile}
+		if [[ $(SearchLine "${EndOfCrosshair}" "${i}") != "" ]]
+		then
+			module=""
+			printf "${GenericEnd}" >> ${CrosshairFile}
+			crosshairFlag="true"
+		fi
+	fi
+
 	# Frags
 	if [[ "${category}" != "always" && $(GenericChecker "frags" "${StartOfFrags}" "${i}" "${fragsFlag}") == "true" ]]
 	then
