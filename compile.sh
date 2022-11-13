@@ -51,6 +51,7 @@ function ProcessLine() # 1: string
 	# Probably.
 
 	# Add access to HDStatusbar variables
+	line=$(sed -E 's/self/sb/gi' <<< "${line}")
 	line=$(sed -E 's/hpl/sb.hpl/gi' <<< "${line}")
 	line=$(sed -E 's/cplayer/sb.cplayer/gi' <<< "${line}")
 	line=$(sed -E 's/fill/sb.fill/gi' <<< "${line}")
@@ -242,8 +243,31 @@ do
 		if [[ $(SearchLine "${EndOfCrosshair}" "${i}") != "" ]]
 		then
 			module=""
+			printf "		sb.SetSize(0, 320, 200);\n" >> ${CrosshairFile}
+			printf "		sb.BeginHUD(forceScaled: false);\n" >> ${CrosshairFile}
 			printf "${GenericEnd}" >> ${CrosshairFile}
 			crosshairFlag="true"
+		fi
+	fi
+
+	# Crosshair
+	if [[ "${category}" == "always" && $(GenericChecker "itemOverlays" "${StartOfItemOverlays}" "${i}" "${itemOverlaysFlag}") == "true" ]]
+	then
+		if [[ "${module}" == "" ]]
+		then
+			echo "Adding Module: ItemOverlays"
+			module="itemOverlays"
+			printf "${ItemOverlaysHeader}" >> ${ItemOverlaysFile}
+		fi
+
+		ProcessLine "${i}\n" >> ${ItemOverlaysFile}
+		if [[ $(SearchLine "${EndOfItemOverlays}" "${i}") != "" ]]
+		then
+			module=""
+			printf "		sb.SetSize(0, 320, 200);\n" >> ${ItemOverlaysFile}
+			printf "		sb.BeginHUD(forceScaled: false);\n" >> ${ItemOverlaysFile}
+			printf "${GenericEnd}" >> ${ItemOverlaysFile}
+			itemOverlaysFlag="true"
 		fi
 	fi
 

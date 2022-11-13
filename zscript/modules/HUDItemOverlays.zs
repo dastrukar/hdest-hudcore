@@ -1,9 +1,9 @@
-class HUDCrosshair : HUDElement
+class HUDItemOverlays : HUDElement
 {
 	override void Init(HCStatusbar sb)
 	{
 		ZLayer = 0;
-		Namespace = "crosshair";
+		Namespace = "itemoverlays";
 	}
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
@@ -19,11 +19,14 @@ class HUDCrosshair : HUDElement
 			return;
 
 
-		//sb.draw the crosshair
-		if(
-			!sb.blurred
-			&&sb.hpl.health>0
-		)sb.drawHDXHair(sb.hpl,ticfrac);
+		//sb.draw item overlays
+		for(int i=0;i<sb.hpl.OverlayGivers.size();i++){
+			let ppp=sb.hpl.OverlayGivers[i];
+			if(
+				ppp
+				&&ppp.owner==sb.hpl
+			)ppp.DisplayOverlay(sb,sb.hpl);
+		}
 		sb.SetSize(0, 320, 200);
 		sb.BeginHUD(forceScaled: false);
 	}
