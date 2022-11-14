@@ -8,28 +8,14 @@ GenericEnd=\
 "
 
 # Always stuff
-AlwaysCondition="(
-			AutomapActive
-			|| sb.CPlayer.mo != sb.CPlayer.Camera
-			|| (
-				sb.hpl.Health > 0
-				&& (sb.hpl.bInvisible || sb.hpl.alpha <= 0)
-			)
-		)"
+AlwaysCondition="(!CheckAlwaysStuff(sb, state, ticFrac))"
 AlwaysIf="if ${AlwaysCondition}
 			return;
 
 "
 
 # Common stuff
-CommonCondition="(
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)"
+CommonCondition="(CheckCommonStuff(sb, state, ticFrac))"
 CommonIf=\
 "		if ${CommonCondition}
 		{

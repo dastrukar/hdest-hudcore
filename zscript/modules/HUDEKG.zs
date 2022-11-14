@@ -21,14 +21,7 @@ class HUDEKG : HUDElement
 				sb.hpl.health>70?Font.CR_OLIVE:(sb.hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
 			);else sb.drawHealthTicker((40,-24),sb.DI_BOTTOMLEFT);
 		}
-		else if (
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)
+		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//health
 			if(hd_debug)sb.drawstring(

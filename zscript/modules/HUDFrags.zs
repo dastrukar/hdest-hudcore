@@ -18,14 +18,7 @@ class HUDFrags : HUDElement
 				Font.CR_RED
 			);
 		}
-		else if (
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)
+		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//frags
 			if(deathmatch||fraglimit>0)sb.drawstring(

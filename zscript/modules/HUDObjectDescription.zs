@@ -10,14 +10,7 @@ class HUDObjectDescription : HUDElement
 	{
 		if (HDSpectator(sb.hpl))
 			return;
-		if (
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)
+		if (CheckCommonStuff(sb, state, ticFrac))
 		{
 
 			//object description

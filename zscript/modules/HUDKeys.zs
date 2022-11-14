@@ -22,14 +22,7 @@ class HUDKeys : HUDElement
 			if(sb.hpl.countinv("YellowSkull"))sb.drawimage("YSKUA0",(6,50),sb.DI_TOPLEFT);
 			if(sb.hpl.countinv("RedSkull"))sb.drawimage("RSKUB0",(6,70),sb.DI_TOPLEFT);
 		}
-		else if (
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)
+		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//keys
 			string keytype="";

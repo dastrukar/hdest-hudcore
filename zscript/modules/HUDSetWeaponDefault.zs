@@ -10,14 +10,7 @@ class HUDSetWeaponDefault : HUDElement
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
 	{
-		if (
-			AutomapActive
-			|| sb.CPlayer.mo != sb.CPlayer.Camera
-			|| (
-				sb.hpl.Health > 0
-				&& (sb.hpl.bInvisible || sb.hpl.alpha <= 0)
-			)
-		)
+		if (!CheckAlwaysStuff(sb, state, ticFrac))
 			return;
 
 

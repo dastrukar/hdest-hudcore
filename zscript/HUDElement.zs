@@ -16,4 +16,33 @@ class HUDElement ui abstract
 	virtual void Tick(HCStatusbar sb) {}
 
 	virtual void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac) {}
+
+	// The following functions are for doing checks, because typing them out everytime is annoying as hell
+	// If you want to check for automap, just use the AutomapActive variable
+
+	// Returns true if the statusbar would be running DrawAlwaysStuff
+	protected bool CheckAlwaysStuff(HCStatusbar sb, int state, double ticFrac)
+	{
+		return !(
+			AutomapActive
+			|| sb.CPlayer.mo != sb.CPlayer.Camera
+			|| (
+				sb.hpl.Health > 0
+				&& (sb.hpl.bInvisible || sb.hpl.alpha <= 0)
+			)
+		);
+	}
+
+	// Returns true if the statusbar would be running DrawCommonStuff
+	protected bool CheckCommonStuff(HCStatusbar sb, int state, double ticFrac)
+	{
+		return (
+			!AutomapActive
+			&& sb.CPlayer.mo == sb.CPlayer.Camera
+			&& sb.hpl.Health > 0
+			&& state <= sb.HUD_Fullscreen
+			&& sb.HUDLevel > 0
+			&& !HDSpectator(sb.hpl)
+		);
+	}
 }

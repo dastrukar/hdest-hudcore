@@ -17,14 +17,7 @@ class HUDWeaponSprite : HUDElement
 			//guns
 			sb.drawselectedweapon(-80,-60,sb.DI_BOTTOMRIGHT);
 		}
-		else if (
-			!AutomapActive
-			&& sb.CPlayer.mo == sb.CPlayer.Camera
-			&& sb.hpl.Health > 0
-			&& State <= sb.HUD_Fullscreen
-			&& sb.HUDLevel > 0
-			&& !HDSpectator(sb.hpl)
-		)
+		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//weapon sprite
 			if(
