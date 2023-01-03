@@ -4,14 +4,9 @@ statusbarPath="hideousdestructor/zscript/statusbar.zs"
 
 source modules.sh
 
-# Clear files
-echo "Removing files..."
-rm -rfv zscript/HCStatusbar_*
-rm -rfv zscript/modules/*
-
 # Make sure the submodule is up to date
 echo "Looking for HDest submodule..."
-if [[ ! -d "hideousdestructor" ]]
+if [[ ! -d "hideousdestructor/zscript" ]]
 then
 	echo "No HDest submodule found!"
 	echo "Please run 'git submodule update --init' to initialise the submodule."
@@ -19,6 +14,11 @@ then
 	exit
 fi
 echo "Found HDest submodule..."
+
+# Clear files
+echo "Removing files..."
+rm -rfv zscript/HCStatusbar_*
+rm -rfv zscript/modules/*
 
 # Split by lines
 IFS="
