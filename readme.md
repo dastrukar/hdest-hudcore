@@ -18,6 +18,12 @@ You should only do this if HUD Core doesn't work with the latest version or a sp
 Anyhow, if you wish to compile HUD Core, just run `compile.sh` and pray it works.   
 For Windows users, you might want to grab Git Bash for this. (or anything that comes with Git and Bash)
 
+### Notice for Mac/BSD users
+I wrote the compile script on Linux, which means that I used GNU `sed`.   
+Unfortunately, BSD `sed` doesn't have the substitution flag `i`, and therefore the script will fail.   
+The fix is simple: Use GNU `sed` :]   
+(no i'm not going to fix it, it's just going to make the script look even more worse than it already does)
+
 ## How it works
 HUD Core looks for any `HUDElement` class and cache them for use.
 
