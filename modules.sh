@@ -69,55 +69,55 @@ InitVariables="
 ^		int mhht
 "
 
-StartOfDraw='^		\/\/blacking out'
+StartOfDraw='^		//blacking out'
 EndOfDraw='^	\}'
 
 # Always stuff
-StartOfSetWeaponDefault='^		\/\/reads hd_setweapondefault'
+StartOfSetWeaponDefault='^		//reads hd_setweapondefault'
 EndOfSetWeaponDefault='^		if\(lomt\)'
 
-StartOfCrosshair='^		\/\/draw the crosshair'
+StartOfCrosshair='^		//draw the crosshair'
 EndOfCrosshair='^		\)Draw'
 
-StartOfItemOverlays='^		\/\/draw item overlays'
+StartOfItemOverlays='^		//draw item overlays'
 EndOfItemOverlays='^		\}'
 
-StartOfWeaponText='^		\/\/draw information text'
+StartOfWeaponText='^		//draw information text'
 EndOfWeaponText='^		\);'
 
 # Stuff
-StartOfFrags='^		\/\/frags'
+StartOfFrags='^		//frags'
 EndOfFrags='^		\);'
 
 RegexOfAutomapPos='^		drawmypos'
 
-StartOfInventory='^		\/\/inventory'
+StartOfInventory='^		//inventory'
 EndOfInventory='^		DrawInvSel'
 
-StartOfKeys='^		\/\/[kK][eE][yY][sS]'
-EndOfKeys='^		if\(hpl.countinv\(\"RedSkull\"\)\)'
+StartOfKeys='^		//[kK][eE][yY][sS]'
+EndOfKeys='^		if\(hpl.countinv\("RedSkull"\)\)'
 
-StartOfHeartbeat='^		\/\/heartbeat'
+StartOfHeartbeat='^		//heartbeat'
 EndOfHeartbeat='^		\}'
 
-StartOfEKG='^		\/\/health'
+StartOfEKG='^		//health'
 EndOfEKG='^		\);else'
 
-StartOfItemAdditions='^		\/\/items'
+StartOfItemAdditions='^		//items'
 EndOfItemAdditions1='^		DrawItemHUDAdditions'
 EndOfItemAdditions2='^		\);'
 
-StartOfWeaponStatus='^		\/\/weapon readouts'
+StartOfWeaponStatus='^		//weapon readouts'
 EndOfWeaponStatus='drawweaponstatus'
 
-StartOfWeaponSprite1='^		\/\/gun'
-StartOfWeaponSprite2='^		\/\/weapon sprite'
+StartOfWeaponSprite1='^		//gun'
+StartOfWeaponSprite2='^		//weapon sprite'
 EndOfWeaponSprite='^		drawselectedweapon'
 
 RegexOfWeaponStash='		drawweaponstash'
 RegexOfAmmoCounters='		drawammocounters'
 
-StartOfEncumbrance='^			\/\/encumbrance'
+StartOfEncumbrance='^			//encumbrance'
 EndOfEncumbrance='^			int wephelpheight'
 
 StartOfCompass1='^			int wephelpheight'
@@ -134,12 +134,12 @@ EndOfPosition='^			\);'
 StartOfSpeedometer='^		if\(hd_debug>=3\)'
 EndOfSpeedometer='^		\}'
 
-StartOfMugshot1='^		\/\/mugshot'
+StartOfMugshot1='^		//mugshot'
 EndOfMugshot1='^		DrawTexture'
 StartOfMugshot2='^		if\(usemughud\)'
 EndOfMugshot2='^		\);'
 
-StartOfObjectDescription='^		\/\/object desc'
+StartOfObjectDescription='^		//object desc'
 EndOfObjectDescription='^		\);'
 
 
