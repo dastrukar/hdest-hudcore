@@ -80,35 +80,35 @@ class HCStatusbar : HDStatusbar
 		_HUDElements.Clear();
 		for (int ci = 0; ci < AllClasses.Size(); ci++)
 		{
-			if (AllClasses[ci] is "HUDElement" && AllClasses[ci].GetClassName() != "HUDElement")
+			if (!(AllClasses[ci] is "HUDElement") || AllClasses[ci].IsAbstract())
+				continue;
+
+			let element = HUDElement(new(AllClasses[ci]));
+			element.Init(self);
+
+			if (element.Namespace == "")
+				continue;
+
+			// Check if the list is unsorted
+			if (element.ZLayer > highestZLayer)
+				highestZLayer = element.ZLayer;
+
+			else if (element.ZLayer < highestZLayer)
+				sortElements = true;
+
+			bool elementReplaced = false;
+			for (int ei = 0; ei < _HUDElements.Size(); ei++)
 			{
-				let element = HUDElement(new(AllClasses[ci]));
-				element.Init(self);
-
-				if (element.Namespace == "")
-					continue;
-
-				// Check if the list is unsorted
-				if (element.ZLayer > highestZLayer)
-					highestZLayer = element.ZLayer;
-
-				else if (element.ZLayer < highestZLayer)
-					sortElements = true;
-
-				bool elementReplaced = false;
-				for (int ei = 0; ei < _HUDElements.Size(); ei++)
+				if (_HUDElements[ei].Namespace == element.Namespace)
 				{
-					if (_HUDElements[ei].Namespace == element.Namespace)
-					{
-						elementReplaced = true;
-						_HUDElements[ei] = element;
-						break;
-					}
+					elementReplaced = true;
+					_HUDElements[ei] = element;
+					break;
 				}
-
-				if (!elementReplaced)
-					_HUDElements.Push(element);
 			}
+
+			if (!elementReplaced)
+				_HUDElements.Push(element);
 		}
 
 		if (sortElements)
