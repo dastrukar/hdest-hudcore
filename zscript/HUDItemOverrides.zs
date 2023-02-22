@@ -129,7 +129,7 @@ class HUDItemOverrides : HUDElement abstract
 
 					itemOverride = FindOverride(hp);
 					if (itemOverride)
-						itemOverride.DrawHUDStuff(sb, hdFlags, gzFlags);
+						itemOverride.DrawHUDStuff(sb, hp, hdFlags, gzFlags);
 
 					else
 						hp.DrawHUDStuff(sb, sb.hpl, hdFlags, gzFlags);
@@ -143,7 +143,7 @@ class HUDItemOverrides : HUDElement abstract
 
 				itemOverride = FindOverride(sb.CPlayer.ReadyWeapon);
 				if (itemOverride)
-					itemOverride.DrawHUDStuff(sb, hdFlags, gzFlags);
+					itemOverride.DrawHUDStuff(sb, sb.CPlayer.ReadyWeapon, hdFlags, gzFlags);
 
 				else
 					sb.DrawWeaponStatus(sb.CPlayer.ReadyWeapon);
@@ -162,8 +162,10 @@ class HUDItemOverrides : HUDElement abstract
 
 					itemOverride = FindOverride(ppp);
 					if (itemOverride)
-						itemOverride.DrawHUDStuff(sb, hdFlags, gzFlags);
-					ppp.DisplayOverlay(sb, sb.hpl);
+						itemOverride.DrawHUDStuff(sb, ppp, hdFlags, gzFlags);
+
+					else
+						ppp.DisplayOverlay(sb, sb.hpl);
 				}
 				break;
 		}

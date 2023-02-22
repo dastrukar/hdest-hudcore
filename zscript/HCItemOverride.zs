@@ -22,5 +22,5 @@ class HCItemOverride ui abstract
 
 	// The following functions will only run if CheckItem returned true
 	virtual void Tick(HCStatusbar sb) {}
-	virtual void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac) {}
+	virtual void DrawHUDStuff(HCStatusbar sb, Inventory item, int state, double ticFrac) {}
 }
