@@ -50,6 +50,14 @@ function ProcessLine() # 1: string
 	# Could this be more efficient?
 	# Probably.
 
+	# Use alternative stuff for weaponstatus
+	# NOTE: maybe come up with a better method?
+	if [[ "${module}" == "weaponstatus" && $(SearchLine "${EndOfWeaponStatus}" "${line}") != "" ]]
+	then
+		printf "				DrawItemHUDAdditions(sb);\n"
+		return
+	fi
+
 	# Add access to HDStatusbar variables
 	line=$(sed -E 's/self/sb/gi' <<< "${line}")
 	line=$(sed -E 's/hpl/sb.hpl/gi' <<< "${line}")
@@ -71,6 +79,9 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/hudlevel/sb.hudlevel/gi' <<< "${line}")
 	line=$(sed -E 's/SetSize/sb.SetSize/gi' <<< "${line}")
 	line=$(sed -E 's/BeginHUD/sb.BeginHUD/gi' <<< "${line}")
+
+	# Alternative draw functions
+	line=$(sed -E 's/sb\.drawItemHUDAdditions\(/DrawItemHUDAdditions\(sb,/gi' <<< "${line}")
 
 	# Fix some mistakes
 	line=$(sed -E 's/sb\.hd_hudsprite/hd_hudsprite/gi' <<< "${line}")
@@ -264,14 +275,15 @@ do
 		fi
 
 		ProcessLine "${i}\n" >> ${ItemOverlaysFile}
-		if [[ $(SearchLine "${EndOfItemOverlays}" "${i}") != "" ]]
-		then
+		#if [[ $(SearchLine "${EndOfItemOverlays}" "${i}") != "" ]]
+		#then
 			module=""
+			printf "		DrawItemHUDAdditions(sb);\n" >> ${ItemOverlaysFile}
 			printf "		sb.SetSize(0, 320, 200);\n" >> ${ItemOverlaysFile}
 			printf "		sb.BeginHUD(forceScaled: false);\n" >> ${ItemOverlaysFile}
 			printf "${GenericEnd}" >> ${ItemOverlaysFile}
 			itemOverlaysFlag="true"
-		fi
+		#fi
 	fi
 
 	# WeaponText

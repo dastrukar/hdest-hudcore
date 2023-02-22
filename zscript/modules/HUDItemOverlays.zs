@@ -1,9 +1,12 @@
-class HUDItemOverlays : HUDElement
+class HUDItemOverlays : HUDItemOverrides
 {
 	override void Init(HCStatusbar sb)
 	{
 		ZLayer = 0;
 		Namespace = "itemoverlays";
+		_OverrideType = HCOVERRIDETYPE_OVERLAY;
+
+		Super.Init(sb);
 	}
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
@@ -13,13 +16,7 @@ class HUDItemOverlays : HUDElement
 
 
 		//sb.draw item overlays
-		for(int i=0;i<sb.hpl.OverlayGivers.size();i++){
-			let ppp=sb.hpl.OverlayGivers[i];
-			if(
-				ppp
-				&&ppp.owner==sb.hpl
-			)ppp.DisplayOverlay(sb,sb.hpl);
-		}
+		DrawItemHUDAdditions(sb);
 		sb.SetSize(0, 320, 200);
 		sb.BeginHUD(forceScaled: false);
 	}

@@ -1,9 +1,12 @@
-class HUDItemAdditions : HUDElement
+class HUDItemAdditions : HUDItemOverrides
 {
 	override void Init(HCStatusbar sb)
 	{
 		ZLayer = 0;
 		Namespace = "itemadditions";
+		_OverrideType = HCOVERRIDETYPE_ITEM;
+
+		Super.Init(sb);
 	}
 
 	override void DrawHUDStuff(HCStatusbar sb, int state, double ticFrac)
@@ -15,12 +18,12 @@ class HUDItemAdditions : HUDElement
 		{
 
 			//items
-			sb.drawItemHUDAdditions(HDSB_AUTOMAP,sb.DI_TOPLEFT);
+			DrawItemHUDAdditions(sb,HDSB_AUTOMAP,sb.DI_TOPLEFT);
 		}
 		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//items
-			sb.drawItemHUDAdditions(
+			DrawItemHUDAdditions(sb,
 				sb.usemughud?HDSB_MUGSHOT:0
 				,sb.DI_SCREEN_CENTER_BOTTOM
 			);

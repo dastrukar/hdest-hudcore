@@ -204,12 +204,15 @@ CrosshairHeader=\
 "
 
 ItemOverlaysHeader=\
-"class HUDItemOverlays : HUDElement
+"class HUDItemOverlays : HUDItemOverrides
 {
 	${Init}
 	{
 		ZLayer = 0;
 		Namespace = \"itemoverlays\";
+		_OverrideType = HCOVERRIDETYPE_OVERLAY;
+
+		Super.Init(sb);
 	}
 
 	${DrawHUDStuff}
@@ -310,12 +313,15 @@ EKGHeader=\
 "
 
 ItemAdditionsHeader=\
-"class HUDItemAdditions : HUDElement
+"class HUDItemAdditions : HUDItemOverrides
 {
 	${Init}
 	{
 		ZLayer = 0;
 		Namespace = \"itemadditions\";
+		_OverrideType = HCOVERRIDETYPE_ITEM;
+
+		Super.Init(sb);
 	}
 
 	${DrawHUDStuff}
@@ -323,12 +329,15 @@ ItemAdditionsHeader=\
 "
 
 WeaponStatusHeader=\
-"class HUDWeaponStatus : HUDElement
+"class HUDWeaponStatus : HUDItemOverrides
 {
 	${Init}
 	{
 		ZLayer = 0;
 		Namespace = \"weaponstatus\";
+		_OverrideType = HCOVERRIDETYPE_WEAPON;
+
+		Super.Init(sb);
 	}
 
 	${DrawHUDStuff}
