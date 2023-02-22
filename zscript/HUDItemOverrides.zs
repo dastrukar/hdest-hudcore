@@ -33,10 +33,8 @@ class HUDItemOverrides : HUDElement abstract
 			_Overrides.Push(itemOverride);
 		}
 
-		Console.PrintF("sort? "..sortOverrides);
 		if (sortOverrides)
 			QuickSortOverrides(0, _Overrides.Size() - 1);
-		PrintArray();
 	}
 
 	// used for debugging sorter
