@@ -8,7 +8,7 @@ class HUDItemOverrides : HUDElement abstract
 	{
 		_Overrides.Clear();
 
-		int highestPriority = 0;
+		int lowestPriority = 0;
 		bool sortOverrides = false;
 		for (int i = 0; i < AllClasses.Size(); i++)
 		{
@@ -24,17 +24,31 @@ class HUDItemOverrides : HUDElement abstract
 			if (itemOverride.OverrideType != _OverrideType)
 				continue;
 
-			if (itemOverride.Priority > highestPriority)
-				highestPriority = itemOverride.Priority;
+			if (itemOverride.Priority < lowestPriority)
+				lowestPriority = itemOverride.Priority;
 
-			else if (itemOverride.Priority < highestPriority)
+			else if (itemOverride.Priority > lowestPriority)
 				sortOverrides = true;
 
 			_Overrides.Push(itemOverride);
 		}
 
+		Console.PrintF("sort? "..sortOverrides);
 		if (sortOverrides)
 			QuickSortOverrides(0, _Overrides.Size() - 1);
+		PrintArray();
+	}
+
+	// used for debugging sorter
+	protected void PrintArray()
+	{
+		string text = "[ ";
+		for (int i = 0; i < _Overrides.Size(); i++)
+		{
+			text = text.._Overrides[i].Priority.." ";
+		}
+
+		Console.PrintF(text.."]");
 	}
 
 	// copied from HCStatusbar.zs
@@ -52,14 +66,14 @@ class HUDItemOverrides : HUDElement abstract
 
 		while (leftIndex < rightIndex)
 		{
-			// Find a value larger than to the pivot
-			while (leftIndex < rightIndex && _Overrides[leftIndex].Priority < pivot.Priority)
+			// Find a value less than/equal to the pivot
+			while (leftIndex < rightIndex && _Overrides[leftIndex].Priority >= pivot.Priority)
 			{
 				++leftIndex;
 			}
 
-			// Find a value less than/equal to the pivot
-			while (leftIndex < rightIndex && _Overrides[rightIndex].Priority >= pivot.Priority)
+			// Find a value larger than to the pivot
+			while (leftIndex < rightIndex && _Overrides[rightIndex].Priority < pivot.Priority)
 			{
 				--rightIndex;
 			}
@@ -74,7 +88,7 @@ class HUDItemOverrides : HUDElement abstract
 		}
 
 		// Try to swap pivot
-		if (leftIndex < pivotIndex && _Overrides[leftIndex].Priority > pivot.Priority)
+		if (leftIndex < pivotIndex && _Overrides[leftIndex].Priority < pivot.Priority)
 		{
 			HCItemOverride tmp = _Overrides[leftIndex];
 			_Overrides[leftIndex] = pivot;
