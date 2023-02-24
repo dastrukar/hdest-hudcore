@@ -34,14 +34,14 @@ class HCStatusbar : HDStatusbar
 
 		while (leftIndex < rightIndex)
 		{
-			// Find a value larger than to the pivot
-			while (leftIndex < rightIndex && _HUDElements[leftIndex].ZLayer < pivot.ZLayer)
+			// Find a value larger than/equal to the pivot
+			while (leftIndex < rightIndex && _HUDElements[leftIndex].ZLayer <= pivot.ZLayer)
 			{
 				++leftIndex;
 			}
 
-			// Find a value less than/equal to the pivot
-			while (leftIndex < rightIndex && _HUDElements[rightIndex].ZLayer >= pivot.ZLayer)
+			// Find a value less than to the pivot
+			while (leftIndex < rightIndex && _HUDElements[rightIndex].ZLayer > pivot.ZLayer)
 			{
 				--rightIndex;
 			}
@@ -53,17 +53,22 @@ class HCStatusbar : HDStatusbar
 			HUDElement tmp = _HUDElements[leftIndex];
 			_HUDElements[leftIndex] = _HUDElements[rightIndex];
 			_HUDElements[rightIndex] = tmp;
+			PrintArray();
 		}
 
 		// Try to swap pivot
 		if (leftIndex < pivotIndex && _HUDElements[leftIndex].ZLayer > pivot.ZLayer)
 		{
+			Console.PrintF("pivot swap");
 			HUDElement tmp = _HUDElements[leftIndex];
 			_HUDElements[leftIndex] = pivot;
 			_HUDElements[pivotIndex] = tmp;
 			pivotIndex = leftIndex;
+			PrintArray();
 		}
 
+		Console.PrintF("---\n".."minIndex: "..minIndex.."   maxIndex: "..maxIndex);
+		PrintArray();
 		QuickSortElements(minIndex, pivotIndex - 1);
 		QuickSortElements(pivotIndex + 1, maxIndex);
 	}
@@ -111,11 +116,13 @@ class HCStatusbar : HDStatusbar
 				_HUDElements.Push(element);
 		}
 
+		PrintArray();
 		if (sortElements)
 			QuickSortElements(0, _HUDElements.Size() - 1);
 
 		InitVariables();
 		UseMugHUD = false;
+		PrintArray();
 	}
 
 	override void Tick()
