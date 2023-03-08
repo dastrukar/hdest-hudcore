@@ -53,22 +53,22 @@ class HCStatusbar : HDStatusbar
 			HUDElement tmp = _HUDElements[leftIndex];
 			_HUDElements[leftIndex] = _HUDElements[rightIndex];
 			_HUDElements[rightIndex] = tmp;
-			PrintArray();
+			//PrintArray();
 		}
 
 		// Try to swap pivot
 		if (leftIndex < pivotIndex && _HUDElements[leftIndex].ZLayer > pivot.ZLayer)
 		{
-			Console.PrintF("pivot swap");
+			//Console.PrintF("pivot swap");
 			HUDElement tmp = _HUDElements[leftIndex];
 			_HUDElements[leftIndex] = pivot;
 			_HUDElements[pivotIndex] = tmp;
 			pivotIndex = leftIndex;
-			PrintArray();
+			//PrintArray();
 		}
 
-		Console.PrintF("---\n".."minIndex: "..minIndex.."   maxIndex: "..maxIndex);
-		PrintArray();
+		//Console.PrintF("---\n".."minIndex: "..minIndex.."   maxIndex: "..maxIndex);
+		//PrintArray();
 		QuickSortElements(minIndex, pivotIndex - 1);
 		QuickSortElements(pivotIndex + 1, maxIndex);
 	}
@@ -116,13 +116,13 @@ class HCStatusbar : HDStatusbar
 				_HUDElements.Push(element);
 		}
 
-		PrintArray();
+		//PrintArray();
 		if (sortElements)
 			QuickSortElements(0, _HUDElements.Size() - 1);
 
 		InitVariables();
 		UseMugHUD = false;
-		PrintArray();
+		//PrintArray();
 	}
 
 	override void Tick()
