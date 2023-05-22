@@ -71,7 +71,7 @@ HCOVERRIDETYPE_OVERLAY (overrides an item's DisplayOverlay() function)
 - `int Priority`   
 Self-explanatory. If an override's priority is higher than other overrides, it'll be used first.
 
-### Functions:   
+Functions:   
 - `abstract bool CheckItem(Inventory item)`   
 Used to check if the override should override the given item's draw function.   
 The following functions will only run if `CheckItem()` returns true.
