@@ -109,6 +109,58 @@ class HUDItemOverrides : HUDElement abstract
 		return NULL;
 	}
 
+	override void Tick(HCStatusbar sb)
+	{
+		HCItemOverride itemOverride;
+
+		if (!sb.hpl)
+			return;
+
+		switch (_OverrideType)
+		{
+			case HCOVERRIDETYPE_ITEM:
+				for (let item = sb.hpl.Inv; item != NULL; item = item.Inv)
+				{
+					let hp = HDPickup(item);
+					if (!hp)
+						continue;
+
+					itemOverride = FindOverride(hp);
+					if (itemOverride)
+						itemOverride.Tick(sb);
+				}
+
+				break;
+
+			case HCOVERRIDETYPE_WEAPON:
+				if (!sb.CPlayer.ReadyWeapon)
+					break;
+
+				itemOverride = FindOverride(sb.CPlayer.ReadyWeapon);
+				if (itemOverride)
+					itemOverride.Tick(sb);
+
+				break;
+
+			case HCOVERRIDETYPE_OVERLAY:
+				for (int i = 0; i < sb.hpl.OverlayGivers.Size(); i++)
+				{
+					let ppp = sb.hpl.OverlayGivers[i];
+					if (
+						!ppp
+						|| ppp.Owner != sb.hpl
+					)
+						continue;
+
+					itemOverride = FindOverride(ppp);
+					if (itemOverride)
+						itemOverride.Tick(sb);
+				}
+
+				break;
+		}
+	}
+
 	// Replaces sb.DrawItemHUDAdditions(), and sb.DrawWeaponStatus()
 	// also mostly copied from the original, so credits to Matt
 	protected void DrawItemHUDAdditions(HCStatusbar sb, int hdFlags = 0, int gzFlags = 0)
