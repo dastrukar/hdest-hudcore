@@ -56,3 +56,9 @@ def generate_alwaysif_code():
 		'			return;',
 	])
 
+def generate_checkspectator_code():
+	return '\n'.join([
+		'		if (HDSpectator(sb.hpl))',
+		'			return;',
+	])
+
