@@ -31,3 +31,38 @@ class HUDSetWeaponDefaultModule(HUDModule):
 			'	}',
 			'}',
 		])
+
+class HUDItemOverlaysModule(HUDModule):
+	@property
+	def class_name(self):
+		return 'HUDItemOverlays'
+
+	@property
+	def search_category(self):
+		return 'always'
+
+	@property
+	def search_pattern(self):
+		return r'^		//draw item overlays.*?^		}'
+
+	def generate(self, match):
+		return '\n'.join([
+			'class HUDItemOverlays : HUDItemOverrides',
+			'{',
+			f'	{constants.HUDCORE_INIT_OVERRIDE}',
+			'	{',
+			'		ZLayer = 0;',
+			'		Namespace = \"itemoverlays\";',
+			'		_OverrideType = HCOVERRIDETYPE_OVERLAY;',
+			'',
+			'		Super.Init(sb);',
+			'	}',
+			'',
+			f'	{constants.HUDCORE_DRAW_OVERRIDE}',
+			'	{',
+			generate_alwaysif_code(),
+			'',
+			match,
+			'	}',
+			'}',
+		])
