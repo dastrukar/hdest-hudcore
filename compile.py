@@ -15,10 +15,11 @@ def main():
 	print('> Looking for HDest submodule...')
 	if not HDEST_ZSCRIPT_PATH.is_dir():
 		print(
-			'> FATAL ERROR:\n',
-			'> No HDest submodule found!\n',
-			'> Please run "git submodule update --init" to initialise the submodule.\n',
-			'> Then, checkout to your preferred commit/version and compile again.'
+			'> FATAL ERROR:',
+			'> No HDest submodule found!',
+			'> Please run "git submodule update --init" to initialise the submodule.',
+			'> Then, checkout to your preferred commit/version and compile again.',
+			sep='\n'
 		)
 		return 1
 
@@ -26,9 +27,10 @@ def main():
 
 	if not HUDCORE_ZSCRIPT_PATH.is_dir():
 		print(
-			'> FATAL ERROR:\n',
-			'> Could not find HUDCore zscript directory...\n',
-			'> Are you sure you\'re in the right directory?'
+			'> FATAL ERROR:',
+			'> Could not find HUDCore zscript directory...',
+			'> Are you sure you\'re in the right directory?',
+			sep='\n'
 		)
 		return 1
 
