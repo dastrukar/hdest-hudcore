@@ -64,13 +64,12 @@ def main():
 			print(f'> Failed to create module {mod.class_name}: Could not find category {mod.search_category}')
 			continue
 
-		# TODO: search for module stuff and run generate()
 		match = re.search(mod.search_pattern, source_categories[mod.search_category], flags=re.MULTILINE | re.DOTALL)
 		if not match:
 			print(f'> Failed to create module {mod.class_name}: No matches with search_pattern')
 			continue
 
-		Path(HUDCORE_MODULES_PATH, f'{mod.class_name}.zs').write_text(mod.generate(match.group()))
+		mod.generate(match.group())
 
 if __name__ == '__main__':
 	sys.exit(main())
