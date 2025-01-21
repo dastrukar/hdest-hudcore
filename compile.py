@@ -6,10 +6,7 @@ import sys
 import re
 from modules.categories import CATEGORIES
 from modules.modules import MODULES
-
-HDEST_ZSCRIPT_PATH = Path('.', 'hideousdestructor', 'zscript')
-HUDCORE_ZSCRIPT_PATH = Path('.', 'zscript')
-HUDCORE_MODULES_PATH = Path(HUDCORE_ZSCRIPT_PATH, 'modules')
+from modules.constants import HDEST_ZSCRIPT_PATH, HUDCORE_ZSCRIPT_PATH, HUDCORE_MODULES_PATH
 
 def main():
 	print('> Looking for HDest submodule...')
@@ -73,7 +70,7 @@ def main():
 			print(f'> Failed to create module {mod.class_name}: No matches with search_pattern')
 			continue
 
-		print(mod.generate(match.group()))
+		Path(HUDCORE_MODULES_PATH, f'{mod.class_name}.zs').write_text(mod.generate(match.group()))
 
 if __name__ == '__main__':
 	sys.exit(main())
