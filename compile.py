@@ -99,13 +99,14 @@ def main():
 	# create module files
 	for mod in MODULES:
 		print(f'> Creating module {mod.class_name}')
+		failed_msg = f'> Failed to create module {mod.class_name}:'
 		if mod.search_category not in source_categories:
-			print(f'> Failed to create module {mod.class_name}: Could not find category {mod.search_category}')
+			print(f'{failed_msg} Could not find category {mod.search_category}')
 			continue
 
 		match = re.search(mod.search_pattern, source_categories[mod.search_category], flags=re.MULTILINE | re.DOTALL)
 		if not match:
-			print(f'> Failed to create module {mod.class_name}: No matches with search_pattern')
+			print(f'{failed_msg} No matches with search_pattern')
 			continue
 
 		mod.generate(process_match(match.group()))
