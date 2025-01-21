@@ -1,5 +1,4 @@
-from pathlib import Path
-from .base import HUDModule, generate_init_code, generate_alwaysif_code
+from .base import HUDModule, write_to_file, generate_init_code, generate_alwaysif_code
 from . import constants
 
 class HUDSetWeaponDefaultModule(HUDModule):
@@ -16,8 +15,7 @@ class HUDSetWeaponDefaultModule(HUDModule):
 		return r'^\t\t//reads hd_setweapondefault.*?if\(lomt\).*?$'
 
 	def generate(self, match):
-		file = Path(constants.HUDCORE_MODULES_PATH, self.class_name)
-		file.write_text('\n'.join([
+		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
 			'// Why is this part of the statusbar?',
 			'// Oh well.',
 			'class HUDSetWeaponDefault : HUDElement',
@@ -47,8 +45,7 @@ class HUDItemOverlaysModule(HUDModule):
 		return r'^\t\t//draw item overlays.*?^\t\t}'
 
 	def generate(self, match):
-		file = Path(constants.HUDCORE_MODULES_PATH, self.class_name)
-		file.write_text('\n'.join([
+		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
 			'class HUDItemOverlays : HUDItemOverrides',
 			'{',
 			f'	{constants.HUDCORE_INIT_OVERRIDE}',
@@ -64,7 +61,9 @@ class HUDItemOverlaysModule(HUDModule):
 			'	{',
 			generate_alwaysif_code(),
 			'',
-			match,
+			'		DrawItemHUDAdditions(sb);',
+			'		sb.SetSize(0, 320, 200);',
+			'		sb.BeginHUD(forceScaled: false);',
 			'	}',
 			'}',
 		]))

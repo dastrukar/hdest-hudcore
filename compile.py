@@ -8,6 +8,44 @@ from modules.categories import CATEGORIES
 from modules.modules import MODULES
 from modules.constants import HDEST_ZSCRIPT_PATH, HUDCORE_ZSCRIPT_PATH, HUDCORE_MODULES_PATH
 
+def process_match(text):
+	# add access to HDStatusbar variables
+	prefix_with_sb = (
+		r'hpl',
+		r'cplayer',
+		r'fill',
+		r'hud_',
+		r'draw',
+		r'hd_',
+		r'sbcolour',
+		r'DI_',
+		r'pnew',
+		r'FormatNumber',
+		r'blurred',
+		r'GetMug',
+		r'usemughud',
+		r'mHUDFont',
+		r'pSmallFont',
+		r'hudlevel',
+		r'SetSize',
+		r'BeginHUD',
+		r'mxht',
+		r'mhht',
+	)
+	text = re.sub(r'self', 'sb', text)
+	for i in prefix_with_sb:
+		text = re.sub(i, f'sb.{i}', text)
+
+	# alternative draw functions
+	text = re.sub(r'sb\.drawItemHUDAdditions\(', 'DrawItemHUDAdditions(sb', text)
+
+	# fix some mistakes
+	text = re.sub(r'sb\.hd_debug', 'hd_debug', text)
+	text = re.sub(r'_sb\.', '_', text)
+	text = re.sub(r'screen\.sb\.draw', 'screen.draw', text)
+
+	return text
+
 def main():
 	print('> Looking for HDest submodule...')
 	if not HDEST_ZSCRIPT_PATH.is_dir():
@@ -70,7 +108,7 @@ def main():
 			print(f'> Failed to create module {mod.class_name}: No matches with search_pattern')
 			continue
 
-		mod.generate(match.group())
+		mod.generate(process_match(match.group()))
 
 if __name__ == '__main__':
 	sys.exit(main())
