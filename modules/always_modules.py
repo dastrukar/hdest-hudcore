@@ -13,7 +13,7 @@ class HUDSetWeaponDefaultModule(HUDModule):
 
 	@property
 	def search_pattern(self):
-		return r'^.*?//reads hd_setweapondefault.*?if\(lomt\).*?$'
+		return r'^\t\t//reads hd_setweapondefault.*?if\(lomt\).*?$'
 
 	def generate(self, match):
 		return '\n'.join([
@@ -43,7 +43,7 @@ class HUDItemOverlaysModule(HUDModule):
 
 	@property
 	def search_pattern(self):
-		return r'^		//draw item overlays.*?^		}'
+		return r'^\t\t//draw item overlays.*?^\t\t}'
 
 	def generate(self, match):
 		return '\n'.join([
