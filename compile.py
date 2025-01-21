@@ -60,6 +60,7 @@ def main():
 
 	# create module files
 	for mod in MODULES:
+		print(f'> Creating module {mod.class_name}')
 		if mod.search_category not in source_categories:
 			print(f'> Failed to create module {mod.class_name}: Could not find category {mod.search_category}')
 			continue
