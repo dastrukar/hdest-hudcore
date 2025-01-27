@@ -15,7 +15,7 @@ def process_match(text):
 		r'cplayer',
 		r'fill',
 		r'hud_',
-		r'draw',
+		r'Draw',
 		r'hd_',
 		r'sbcolour',
 		r'DI_',
@@ -34,13 +34,14 @@ def process_match(text):
 	)
 	text = re.sub(r'self', 'sb', text)
 	for i in prefix_with_sb:
-		text = re.sub(i, f'sb.{i}', text)
+		text = re.sub(i, f'sb.{i}', text, flags=re.IGNORECASE)
 
 	# alternative draw functions
 	text = re.sub(r'sb\.drawItemHUDAdditions\(', 'DrawItemHUDAdditions(sb', text)
 
 	# fix some mistakes
 	text = re.sub(r'sb\.hd_debug', 'hd_debug', text)
+	text = re.sub(r'sb\.hd_loadout', 'hd_loadout', text)
 	text = re.sub(r'_sb\.', '_', text)
 	text = re.sub(r'screen\.sb\.draw', 'screen.draw', text)
 
