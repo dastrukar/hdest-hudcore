@@ -9,3 +9,16 @@ HUDCORE_DRAW_OVERRIDE = 'override void DrawHUDStuff(HCStatusbar sb, int state, d
 
 ALWAYS_CONDITION = '(!CheckAlwaysStuff(sb, state, ticFrac))'
 COMMON_CONDITION = '(CheckCommonStuff(sb, state, ticFrac))'
+
+ALWAYSIF_CODE = '\n'.join([
+	f'		if {ALWAYS_CONDITION}',
+	'			return;',
+])
+CHECKSPECTATOR_CODE = '\n'.join([
+	'		if (HDSpectator(sb.hpl))',
+	'			return;',
+])
+SETSIZE_CODE = '\n'.join([
+	'		sb.SetSize(0, 320, 200);',
+	'		sb.BeginHUD(forceScaled: false);',
+])

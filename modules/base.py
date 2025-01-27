@@ -54,21 +54,3 @@ def generate_init_code(z_layer, namespace):
 		f'		Namespace = "{namespace}";',
 		'	}',
 	])
-
-def generate_alwaysif_code():
-	return '\n'.join([
-		f'		if {constants.ALWAYS_CONDITION}',
-		'			return;',
-	])
-
-def generate_checkspectator_code():
-	return '\n'.join([
-		'		if (HDSpectator(sb.hpl))',
-		'			return;',
-	])
-
-def generate_setsize_code():
-	return '\n'.join([
-		'		sb.SetSize(0, 320, 200);',
-		'		sb.BeginHUD(forceScaled: false);',
-	])

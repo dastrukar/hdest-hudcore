@@ -1,4 +1,4 @@
-from .base import HUDModule, write_to_file, generate_init_code, generate_alwaysif_code, generate_setsize_code
+from .base import HUDModule, write_to_file, generate_init_code
 from . import constants
 
 class HUDSetWeaponDefaultModule(HUDModule):
@@ -24,7 +24,7 @@ class HUDSetWeaponDefaultModule(HUDModule):
 			'',
 			f'	{constants.HUDCORE_DRAW_OVERRIDE}',
 			'	{',
-			generate_alwaysif_code(),
+			constants.ALWAYSIF_CODE,
 			'',
 			match,
 			'	}',
@@ -59,10 +59,10 @@ class HUDItemOverlaysModule(HUDModule):
 			'',
 			f'	{constants.HUDCORE_DRAW_OVERRIDE}',
 			'	{',
-			generate_alwaysif_code(),
+			constants.ALWAYSIF_CODE,
 			'',
 			'		DrawItemHUDAdditions(sb);',
-			generate_setsize_code(),
+			constants.SETSIZE_CODE,
 			'	}',
 			'}',
 		]))
@@ -84,18 +84,14 @@ class HUDWeaponTextModule(HUDModule):
 		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
 			f'class {self.class_name} : HUDElement',
 			'{',
-			f'	{constants.HUDCORE_INIT_OVERRIDE}',
-			'	{',
-			'		ZLayer = 0;',
-			'		Namespace = "weapontext";',
-			'	}',
+			generate_init_code(0, 'weapontext'),
 			'',
 			f'	{constants.HUDCORE_DRAW_OVERRIDE}',
 			'	{',
-			generate_alwaysif_code(),
+			constants.ALWAYSIF_CODE,
 			'',
 			match,
-			generate_setsize_code(),
+			constants.SETSIZE_CODE,
 			'	}',
 			'}',
 		]))
