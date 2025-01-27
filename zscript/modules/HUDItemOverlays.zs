@@ -14,8 +14,6 @@ class HUDItemOverlays : HUDItemOverrides
 		if (!CheckAlwaysStuff(sb, state, ticFrac))
 			return;
 
-
-		//sb.draw item overlays
 		DrawItemHUDAdditions(sb);
 		sb.SetSize(0, 320, 200);
 		sb.BeginHUD(forceScaled: false);

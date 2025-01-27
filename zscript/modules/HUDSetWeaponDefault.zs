@@ -13,7 +13,6 @@ class HUDSetWeaponDefault : HUDElement
 		if (!CheckAlwaysStuff(sb, state, ticFrac))
 			return;
 
-
 		//reads sb.hd_setweapondefault and updates accordingly
 		if(sb.hd_setweapondefault.getstring()!=""){
 			string wpdefs=cvar.getcvar("sb.hd_weapondefaults",sb.cplayer).getstring().makelower();
@@ -66,13 +65,16 @@ class HUDSetWeaponDefault : HUDElement
 					wpdefs=wpdefs.left(wpdefs.length()-1);
 					wpdlastchar=wpdefs.mid(wpdefs.length()-1,1);
 				}
+
 				sb.hd_setweapondefault.setstring("");
 				cvar.findcvar("sb.hd_weapondefaults").setstring(wpdefs);
 			}
 		}
+
+
 		//update loadout1 based on old custom
 		//delete once old custom is gone!
 		let lomt=LoadoutMenuHackToken(ThinkerFlag.Find(sb.cplayer.mo,"LoadoutMenuHackToken"));
-		if(lomt)cvar.findcvar("sb.hd_loadout1").setstring(lomt.loadout);
+		if(lomt)cvar.findcvar("hd_loadout1").setstring(lomt.loadout);
 	}
 }
