@@ -67,3 +67,8 @@ def generate_checkspectator_code():
 		'			return;',
 	])
 
+def generate_setsize_code():
+	return '\n'.join([
+		'		sb.SetSize(0, 320, 200);',
+		'		sb.BeginHUD(forceScaled: false);',
+	])

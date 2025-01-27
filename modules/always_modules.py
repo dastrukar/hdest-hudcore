@@ -1,4 +1,4 @@
-from .base import HUDModule, write_to_file, generate_init_code, generate_alwaysif_code
+from .base import HUDModule, write_to_file, generate_init_code, generate_alwaysif_code, generate_setsize_code
 from . import constants
 
 class HUDSetWeaponDefaultModule(HUDModule):
@@ -62,8 +62,7 @@ class HUDItemOverlaysModule(HUDModule):
 			generate_alwaysif_code(),
 			'',
 			'		DrawItemHUDAdditions(sb);',
-			'		sb.SetSize(0, 320, 200);',
-			'		sb.BeginHUD(forceScaled: false);',
+			generate_setsize_code(),
 			'	}',
 			'}',
 		]))
@@ -96,8 +95,7 @@ class HUDWeaponTextModule(HUDModule):
 			generate_alwaysif_code(),
 			'',
 			match,
-			'		sb.SetSize(0, 320, 200);',
-			'		sb.BeginHUD(forceScaled: false);',
+			generate_setsize_code(),
 			'	}',
 			'}',
 		]))
