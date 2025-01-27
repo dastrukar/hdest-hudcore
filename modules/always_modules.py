@@ -18,7 +18,7 @@ class HUDSetWeaponDefaultModule(HUDModule):
 		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
 			'// Why is this part of the statusbar?',
 			'// Oh well.',
-			'class HUDSetWeaponDefault : HUDElement',
+			f'class {self.class_name} : HUDElement',
 			'{',
 			generate_init_code(0, 'setweapondefault'),
 			'',
@@ -46,7 +46,7 @@ class HUDItemOverlaysModule(HUDModule):
 
 	def generate(self, match):
 		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
-			'class HUDItemOverlays : HUDItemOverrides',
+			f'class {self.class_name} : HUDItemOverrides',
 			'{',
 			f'	{constants.HUDCORE_INIT_OVERRIDE}',
 			'	{',
@@ -62,6 +62,40 @@ class HUDItemOverlaysModule(HUDModule):
 			generate_alwaysif_code(),
 			'',
 			'		DrawItemHUDAdditions(sb);',
+			'		sb.SetSize(0, 320, 200);',
+			'		sb.BeginHUD(forceScaled: false);',
+			'	}',
+			'}',
+		]))
+
+class HUDWeaponTextModule(HUDModule):
+	@property
+	def class_name(self):
+		return 'HUDWeaponText'
+
+	@property
+	def search_category(self):
+		return 'always'
+
+	@property
+	def search_pattern(self):
+		return r'^\t\t//draw information text.*?^\t\t\);'
+
+	def generate(self, match):
+		write_to_file(constants.HUDCORE_MODULES_PATH, self, '\n'.join([
+			f'class {self.class_name} : HUDElement',
+			'{',
+			f'	{constants.HUDCORE_INIT_OVERRIDE}',
+			'	{',
+			'		ZLayer = 0;',
+			'		Namespace = "weapontext";',
+			'	}',
+			'',
+			f'	{constants.HUDCORE_DRAW_OVERRIDE}',
+			'	{',
+			generate_alwaysif_code(),
+			'',
+			match,
 			'		sb.SetSize(0, 320, 200);',
 			'		sb.BeginHUD(forceScaled: false);',
 			'	}',

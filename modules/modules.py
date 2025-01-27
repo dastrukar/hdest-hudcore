@@ -1,6 +1,7 @@
-from .always_modules import HUDSetWeaponDefaultModule, HUDItemOverlaysModule
+from . import always_modules
 
 MODULES = (
-	HUDSetWeaponDefaultModule(),
-	HUDItemOverlaysModule(),
+	always_modules.HUDSetWeaponDefaultModule(),
+	always_modules.HUDItemOverlaysModule(),
+	always_modules.HUDWeaponTextModule(),
 )
