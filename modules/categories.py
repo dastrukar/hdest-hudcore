@@ -1,5 +1,18 @@
 from .base import HUDCategory
 
+class HUDDrawCategory(HUDCategory):
+	@property
+	def category_name(self):
+		return 'draw'
+
+	@property
+	def search_pattern(self):
+		return r'^	override void Draw.*?^	}'
+
+	@property
+	def source_file(self):
+		return 'statusbar.zs'
+
 class HUDAutomapCategory(HUDCategory):
 	@property
 	def category_name(self):
@@ -53,6 +66,7 @@ class HUDCrosshairCategory(HUDCategory):
 		return 'crosshair.zs'
 
 CATEGORIES = (
+	HUDDrawCategory(),
 	HUDAutomapCategory(),
 	HUDAlwaysCategory(),
 	HUDCommonCategory(),

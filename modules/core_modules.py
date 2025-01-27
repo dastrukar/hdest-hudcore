@@ -1,8 +1,8 @@
-from .base import HUDModule, write_to_file, generate_init_code
+from .base import HUDModule, write_to_file
 from . import constants
 import re
 
-class HUDInitVariablesModule(HUDModule):
+class HCInitVariables(HUDModule):
 	@property
 	def class_name(self):
 		return 'HCStatusbar_InitVariables'
@@ -22,6 +22,36 @@ class HUDInitVariablesModule(HUDModule):
 			'	private void InitVariables()',
 			'	{',
 			re.sub(r'sb.', '', re.sub(r'int ', '', match)),
+			'	}',
+			'}',
+		]))
+
+
+class HCSuperDraw(HUDModule):
+	@property
+	def class_name(self):
+		return 'HCStatusbar_SuperDraw'
+
+	@property
+	def search_category(self):
+		return 'draw'
+
+	@property
+	def search_pattern(self):
+		# TODO: check if inventorytics is actually required for anything
+		return r'^\t\tcplayer.inventorytics.*?drawmypos.*?$'
+
+	def generate(self, match):
+		write_to_file(constants.HUDCORE_ZSCRIPT_PATH, self, '\n'.join([
+			f'extend class HCStatusbar',
+			'{',
+			'	private void SuperDraw(int state, double ticFrac)',
+			'	{',
+			re.sub(r'if.*?Drawtip', 'drawtip',
+				re.sub(r'sb.', '',
+					re.sub(r'^\t\tif\(automapactive.*?^\t\t}$', '', match, flags=re.MULTILINE | re.DOTALL)
+				)
+			),
 			'	}',
 			'}',
 		]))
