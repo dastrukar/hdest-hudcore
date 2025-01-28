@@ -72,11 +72,11 @@ def main():
 
 	# remove previously generated files
 	print('> Removing previously generated files...')
-	# for f in HUDCORE_ZSCRIPT_PATH.glob('HCStatusbar_*'):
-	# 	f.unlink()
+	for f in HUDCORE_ZSCRIPT_PATH.glob('HCStatusbar_*'):
+		f.unlink()
 
-	# for f in HUDCORE_MODULES_PATH.glob('*'):
-	# 	f.unlink()
+	for f in HUDCORE_MODULES_PATH.glob('*'):
+		f.unlink()
 
 	# create category contents
 	source_files = {}
