@@ -99,7 +99,7 @@ def main():
 
 	# create module files
 	for mod in MODULES:
-		print(f'> Creating module {mod.class_name}')
+		print(f'> Creating module {mod.class_name} (category: {mod.search_category})')
 		failed_msg = f'> Failed to create module {mod.class_name}:'
 		if mod.search_category not in source_categories:
 			print(f'{failed_msg} Could not find category {mod.search_category}')
