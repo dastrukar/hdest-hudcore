@@ -1,5 +1,6 @@
 from . import always_modules
 from . import core_modules
+from . import common_modules
 
 MODULES = (
 	core_modules.HCInitVariables(),
@@ -7,4 +8,5 @@ MODULES = (
 	always_modules.HUDSetWeaponDefaultModule(),
 	always_modules.HUDItemOverlaysModule(),
 	always_modules.HUDWeaponTextModule(),
+	common_modules.HUDFragsModule(),
 )

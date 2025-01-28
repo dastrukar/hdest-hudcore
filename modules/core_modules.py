@@ -1,4 +1,5 @@
-from .base import HUDModule, write_to_file
+from .base import HUDModule
+from .file_io import write_to_file
 from . import constants
 import re
 

@@ -1,4 +1,6 @@
-from .base import HUDModule, write_to_file, generate_init_code
+from .base import HUDModule
+from .file_io import write_to_file
+from .generators import generate_init_code
 from . import constants
 
 class HUDSetWeaponDefaultModule(HUDModule):
