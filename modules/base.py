@@ -1,6 +1,4 @@
-from pathlib import Path
 from abc import ABC, abstractmethod
-from . import constants
 import re
 
 # NOTE: search_pattern is checked line by line, not the entire file at once
@@ -41,10 +39,6 @@ class HUDCategory(ABC):
 	@abstractmethod
 	def source_file(self):
 		return 'filename.zs'
-
-# the following are module helper functions
-def write_to_file(dir, module, text):
-	Path(dir, f'{module.class_name}.zs').write_text(text + '\n')
 
 def generate_init_code(z_layer, namespace):
 	return '\n'.join([
