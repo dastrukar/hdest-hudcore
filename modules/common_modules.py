@@ -3,7 +3,7 @@ from .file_io import write_to_file_if_not_exists, insert_to_file
 from .generators import generate_init_code
 from . import constants
 
-# this should go after module
+# this is separated into two parts, see automap_modules.py
 class HUDFragsModule(HUDModule):
 	@property
 	def class_name(self):

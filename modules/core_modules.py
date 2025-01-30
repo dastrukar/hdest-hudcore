@@ -48,7 +48,7 @@ class HCSuperDraw(HUDModule):
 			'{',
 			'	private void SuperDraw(int state, double ticFrac)',
 			'	{',
-			re.sub(r'if.*?Drawtip', 'drawtip',
+			re.sub(r'if.*?Drawtip', 'drawtip', # always draw tips
 				re.sub(r'sb.', '',
 					re.sub(r'^\t\tif\(automapactive.*?^\t\t}$', '', match, flags=re.MULTILINE | re.DOTALL)
 				)
