@@ -15,7 +15,10 @@ class HUDEKG : HUDElement
 		{
 
 			//health
-			if(hd_debug)sb.drawstring(
+			if(
+				hd_debug
+				||hd_nobleed
+			)sb.drawstring(
 				sb.pnewsmallfont,sb.FormatNumber(sb.hpl.health),
 				(34,-24),sb.DI_BOTTOMLEFT|sb.DI_TEXT_ALIGN_CENTER,
 				sb.hpl.health>70?Font.CR_OLIVE:(sb.hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
@@ -24,7 +27,10 @@ class HUDEKG : HUDElement
 		else if (CheckCommonStuff(sb, state, ticFrac))
 		{
 			//health
-			if(hd_debug)sb.drawstring(
+			if(
+				hd_debug
+				||hd_nobleed
+			)sb.drawstring(
 				sb.pnewsmallfont,sb.FormatNumber(sb.hpl.health),
 				(0,sb.mxht),sb.DI_TEXT_ALIGN_CENTER|sb.DI_SCREEN_CENTER_BOTTOM,
 				sb.hpl.health>70?Font.CR_OLIVE:(sb.hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)

@@ -24,7 +24,7 @@ class HUDCompass : HUDElement
 				font.CR_GOLD,
 				600+compangle2*32/sb.cplayer.fov,
 				wephelpheight,
-				"E",
+				"$EAST",
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
 			);
 			compangle2=sb.hpl.deltaangle(-90,compangle);
@@ -32,7 +32,7 @@ class HUDCompass : HUDElement
 				font.CR_BLACK,
 				600+compangle2*32/sb.cplayer.fov,
 				wephelpheight,
-				"S",
+				"$SOUTH",
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
 			);
 			compangle2=sb.hpl.deltaangle(180,compangle);
@@ -40,7 +40,7 @@ class HUDCompass : HUDElement
 				font.CR_RED,
 				600+compangle2*32/sb.cplayer.fov,
 				wephelpheight,
-				"W",
+				"$WEST",
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
 			);
 			compangle2=sb.hpl.deltaangle(90,compangle);
@@ -48,7 +48,7 @@ class HUDCompass : HUDElement
 				font.CR_WHITE,
 				600+compangle2*32/sb.cplayer.fov,
 				wephelpheight,
-				"N",
+				"$NORTH",
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
 			);
 			string s=sb.hpl.wephelptext;

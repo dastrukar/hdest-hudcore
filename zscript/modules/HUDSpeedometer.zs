@@ -20,7 +20,7 @@ class HUDSpeedometer : HUDElement
 				string velspdout=velspd.."   "..(velspd*HDCONST_MPSTODUPT).."mps   "..(velspd*HDCONST_MPSTODUPT*HDCONST_MPSTOKPH).."km/h";
 				screen.drawText(NewSmallFont,
 					font.CR_GRAY,
-					600-(NewSmallFont.StringWidth(velspdout)>>1),
+					600-(NewSmallFont.StringWidth(velspdout)),
 					NewSmallFont.GetHeight(),
 					velspdout,
 					DTA_VirtualWidth,640,DTA_VirtualHeight,480

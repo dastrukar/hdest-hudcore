@@ -67,6 +67,7 @@ function ProcessLine() # 1: string
 	line=$(sed -E 's/draw/sb.draw/gi' <<< "${line}")
 	line=$(sed -E 's/hd_/sb.hd_/gi' <<< "${line}")
 	line=$(sed -E 's/sb\.hd_debug/hd_debug/gi' <<< "${line}")
+	line=$(sed -E 's/sb\.hd_nobleed/hd_nobleed/gi' <<< "${line}")
 	line=$(sed -E 's/sbcolour/sb.sbcolour/gi' <<< "${line}")
 	line=$(sed -E 's/DI_/sb.DI_/gi' <<< "${line}")
 	line=$(sed -E 's/pnew/sb.pnew/gi' <<< "${line}")
