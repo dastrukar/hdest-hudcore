@@ -70,9 +70,5 @@ class HUDSetWeaponDefault : HUDElement
 				cvar.findcvar("sb.hd_weapondefaults").setstring(wpdefs);
 			}
 		}
-		//update loadout1 based on old custom
-		//delete once old custom is gone!
-		let lomt=LoadoutMenuHackToken(ThinkerFlag.Find(sb.cplayer.mo,"LoadoutMenuHackToken"));
-		if(lomt)cvar.findcvar("sb.hd_loadout1").setstring(lomt.loadout);
 	}
 }
